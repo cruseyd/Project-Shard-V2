@@ -9,14 +9,7 @@ using System.Reflection;
 
 public class CardGameManager : MonoBehaviour
 {
-
-    enum SE
-    {
-        SE_Poison
-    }
-
     private static CardGameManager _instance;
-
     
     [SerializeField] private CardGameUI _gameUI;
     [SerializeField] private List<Decklist> _decks;
@@ -28,6 +21,13 @@ public class CardGameManager : MonoBehaviour
     private float _lastLeftClick;
     private bool _buttonsEnabled;
 
+    public static GamePhase.Name phase
+    {
+        get
+        {
+            return _instance._phase.name;
+        }
+    }
     private GamePhase _phase
     {
         get
@@ -73,11 +73,6 @@ public class CardGameManager : MonoBehaviour
             _game.Player(ii).SetDeck(_decks[ii]);
         }
         _phase = GamePhase.preGame;
-        Type testType = Type.GetType(SE.SE_Poison.ToString());
-        ConstructorInfo constructorInfo = testType.GetConstructor(new[] { typeof(CardGame), typeof(ITarget) });
-        object[] args = { _game, _game.humanPlayer };
-        SE_Poison testObject = constructorInfo.Invoke(args) as SE_Poison;
-        Debug.Log("testObject is stackable: " + testObject.stackable);
     }
     void Update()
     {
@@ -116,7 +111,6 @@ public class CardGameManager : MonoBehaviour
             {
                 _lastLeftClick = Time.time;
             }
-            
         }
     }
 

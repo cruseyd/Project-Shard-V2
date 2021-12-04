@@ -6,12 +6,10 @@ public class DrawCardEffect : GameEffect
 {
     private Actor _player;
     private Card _drawnCard;
-    private bool _cycleDeck;
 
     public DrawCardEffect(Actor a_player)
     {
         _player = a_player;
-        _cycleDeck = false;
     }
     public override void Execute(CardGame a_game)
     {
@@ -36,15 +34,10 @@ public class DrawCardEffect : GameEffect
 
     public override void Show(CardGame a_game)
     {
-        //_drawnCard.ui.Move(_player.ui.zones[CardZone.Type.HAND], _player.playerControlled);
-        //_drawnCard.ui.Move(_player.ui.zones[CardZone.Type.HAND], true);
     }
 
     public override void Undo(CardGame a_game)
     {
-        //Debug.Assert(_player.hand.cards.Contains(_drawnCard));
-
-        //_player.hand.Remove(_drawnCard);
-        //_player.deck.InsertTop(_drawnCard);
+        // Undo is unnecessary. Handled by EntersZone effects.
     }
 }

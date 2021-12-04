@@ -15,6 +15,7 @@ public class PlayCard : GameAction
 
     public override void Execute(CardGame a_game)
     {
+        Debug.Log("Executing PlayCard Action");
         IncrementActorStatEffect payResourceEffect = new IncrementActorStatEffect(Actor.StatName.FOCUS, -_card.data.level, _card.owner);
         payResourceEffect.Execute(a_game);
         //IncrementActorStatEffect addThresholdEffect = new IncrementActorStatEffect(_card.data.threshold, 1, _card.owner);

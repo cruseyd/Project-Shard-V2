@@ -110,6 +110,8 @@ public abstract class Card : ITarget, IModifiable, ISource
     {
         get
         {
+            if ((CardGameManager.phase != GamePhase.Name.IDLE)
+                && (CardGameManager.phase != GamePhase.Name.AI_CONTROL )) { return false; }
             if (owner.focus < data.level) { return false; }
             if (_game.currentPlayer != owner) { return false; }
             if (zone.type != CardZone.Type.HAND) { return false; }

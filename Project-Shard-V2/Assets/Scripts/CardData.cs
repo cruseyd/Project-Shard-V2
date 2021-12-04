@@ -62,7 +62,7 @@ public class CardData : IComparable
     {
         get
         {
-            return name.ToUpper().Replace(' ', '_');
+            return name.Replace(" ", "");
         }
     }
 

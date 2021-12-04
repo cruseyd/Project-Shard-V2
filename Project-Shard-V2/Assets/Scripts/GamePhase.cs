@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class GamePhase
 {
-    public enum Type
+    public enum Name
     {
         DEFAULT,
         IDLE,
@@ -15,6 +15,7 @@ public abstract class GamePhase
         END_TURN
     }
 
+    public Name name;
     private static IdlePhase _idle;
     private static PreGamePhase _preGame;
     private static EndTurnPhase _endTurn;
@@ -59,6 +60,7 @@ public abstract class GamePhase
 
 public class IdlePhase : GamePhase
 {
+    public IdlePhase() { name = Name.IDLE; }
     public override GamePhase Confirm(CardGame a_game)
     {
         return endTurn;
@@ -179,6 +181,7 @@ public class TargetingPhase : GamePhase
     private List<ITarget> _targets;
     public TargetingPhase(Card a_source, Action a_type = Action.PLAY)
     {
+        name = Name.TARGETING;
         _source = a_source;
         _targets = new List<ITarget>();
         _type = a_type;
@@ -353,7 +356,11 @@ public class TargetingPhase : GamePhase
 public class PreviewPhase : GamePhase
 {
     private GameAction _action;
-    public PreviewPhase(GameAction a_action) { _action = a_action; }
+    public PreviewPhase(GameAction a_action)
+    {
+        name = Name.PREVIEW;
+        _action = a_action;
+    }
     public override GamePhase Confirm(CardGame a_game)
     {
         a_game.TakeAction(_action);
@@ -394,7 +401,11 @@ public class PreviewPhase : GamePhase
 public class AIControlPhase : GamePhase
 {
     private bool _inProgress = false;
-    public AIControlPhase(bool a_inProgress) { _inProgress = a_inProgress; }
+    public AIControlPhase(bool a_inProgress)
+    {
+        name = Name.AI_CONTROL;
+        _inProgress = a_inProgress;
+    }
     public override GamePhase Confirm(CardGame a_game)
     {
         Actor actor = a_game.currentPlayer;
@@ -432,6 +443,10 @@ public class AIControlPhase : GamePhase
 
 public class PreGamePhase : GamePhase
 {
+    public PreGamePhase()
+    {
+        name = Name.PRE_GAME;
+    }
     public override GamePhase Confirm(CardGame a_game)
     {
         GameAction action = new StartTurn(a_game.humanPlayer);
@@ -461,6 +476,10 @@ public class PreGamePhase : GamePhase
 
 public class EndTurnPhase : GamePhase
 {
+    public EndTurnPhase()
+    {
+        name = Name.END_TURN;
+    }
     public override GamePhase Confirm(CardGame a_game)
     {
         int playerInfluence = a_game.currentPlayer.GetStat(Actor.StatName.INFLUENCE);

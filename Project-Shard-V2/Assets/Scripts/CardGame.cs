@@ -5,7 +5,6 @@ using UnityEngine;
 public class CardGame
 {
     private Stack<GameAction> _actions;
-    private bool _takingAction = false;
     private List<Actor> _players;
     public GameEvents events { get; private set; }
     public int turn { get; private set; }

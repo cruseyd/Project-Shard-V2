@@ -10108,14 +10108,12 @@ MonoBehaviour:
   _gameUI: {fileID: 415923317}
   _decks:
   - list:
-    - id: SLASH
-      qty: 3
-    - id: FLURRY
-      qty: 3
-    - id: SHARPEN
-      qty: 3
+    - id: Flurry
+      qty: 12
+    - id: Slash
+      qty: 12
   - list:
-    - id: BASIC_UNIT
+    - id: BasicUnit
       qty: 10
   buttonCooldown: 0.25
 --- !u!1 &415923315

@@ -14,7 +14,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private GameObject _cardFront;
     [SerializeField] private GameObject _cardBack;
     [SerializeField] private GameObject _statusEffects;
-
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _abilityText;
     [SerializeField] private TextMeshProUGUI _keywordText;
@@ -56,7 +55,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         {
             if (value == ITargetUI.State.DEFAULT) { ClearMarks(); }
             if (_state == value) { return; }
-            Debug.Log("CardUI::state: " + _state + " -> " + value);
+            //Debug.Log("CardUI::state: " + _state + " -> " + value);
             _state = value;
             switch (_state)
             {

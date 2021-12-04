@@ -16,8 +16,6 @@ public class CardGameUI : MonoBehaviour
     [SerializeField] private List<Transform> playerPositions;
     [SerializeField] private List<GenericDictionary<CardZone.Type, CardZoneUI>> _zones;
 
-    public GenericDictionary<CardZone.Type, CardZoneUI> neutralZones { get { return _neutralZones; } }
-    
     public List<ActorUI> players { get; private set; }
     public CardZoneUI preview { get { return _neutralZones[CardZone.Type.PREVIEW]; } }
 
