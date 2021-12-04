@@ -135,12 +135,12 @@ public class CA_Blitz : CardAbility
                 focusGain++;
             }
         }
-        AddFocus(_source.owner, focusGain*_source.data.var1, 0);
+        AddFocus(_source.owner, focusGain, 0);
     }
 
     private void CycleHandler(Card a_card)
     {
-        AddFocus(_source.owner, _source.data.var2, 0);
+        AddStatusEffect(_source.owner, StatusEffect.Name.Acumen, _source.data.var2);
     }
 }
 

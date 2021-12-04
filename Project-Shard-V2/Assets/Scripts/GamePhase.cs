@@ -68,7 +68,7 @@ public class IdlePhase : GamePhase
     {
     }
 
-    public override GamePhase Enter(CardGame a_game)
+    public override GamePhase Enter(CardGame a_game)                               
     {
         a_game.Refresh();
         a_game.ui.SetConfirmButtonActive(true);

@@ -14,12 +14,12 @@ public class StartTurn : GameAction
 
     public override void Execute(CardGame a_game)
     {
-        SetTurnEffect setTurnEffect = new SetTurnEffect(a_game, _actor);
-        setTurnEffect.Execute(a_game);
         int maxFocus = _actor.GetStat(Actor.StatName.MAX_FOCUS);
         int focus = _actor.GetStat(Actor.StatName.FOCUS);
         IncrementActorStatEffect incrementResource = new IncrementActorStatEffect(Actor.StatName.FOCUS, maxFocus - focus, _actor);
         incrementResource.Execute(a_game);
+        SetTurnEffect setTurnEffect = new SetTurnEffect(a_game, _actor);
+        setTurnEffect.Execute(a_game);
     }
 
     public override void Preview(CardGame a_game)

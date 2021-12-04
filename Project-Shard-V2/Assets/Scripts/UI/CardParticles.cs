@@ -43,7 +43,6 @@ public class CardParticles : MonoBehaviour
 
     public void PlayEdge(bool a_flag)
     {
-        Debug.Log("CardParticles::PlayEdge");
         foreach (ParticleSystem p in edge_particles)
         {
             if (a_flag && !_edgePlaying)

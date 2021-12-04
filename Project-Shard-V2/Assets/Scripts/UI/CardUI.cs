@@ -54,6 +54,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
         set
         {
+            if (value == ITargetUI.State.DEFAULT) { ClearMarks(); }
             if (_state == value) { return; }
             Debug.Log("CardUI::state: " + _state + " -> " + value);
             _state = value;
@@ -112,23 +113,15 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     public virtual void Refresh()
     {
-        state = ITargetUI.State.DEFAULT;
         ResetPosition();
         ResetScale();
-        if (card.humanControlled)
-        {
-            if (card.playable || card.activatable) { state = ITargetUI.State.PLAYABLE; }
-            else if (card is UnitCard && ((UnitCard)card).canAttack) { state = ITargetUI.State.PLAYABLE; }
-        }
         
-        foreach (Card.StatName sname in _statDisplays.Keys)
-        {
-            _statDisplays[sname].value = card.GetStat(sname);
-        }
-        foreach (Card.StatName sname in _maxStatDisplays.Keys)
-        {
-            _maxStatDisplays[sname].baseValue = card.GetStat(sname);
-        }
+        RefreshUIState();
+        RefreshStatDisplays();
+        RefreshStatusEffectDisplays();
+    }
+    private void RefreshStatusEffectDisplays()
+    {
         List<StatusEffect.Name> statusToRemove = new List<StatusEffect.Name>();
         foreach (StatusEffect.Name s in card.statusEffects.Keys)
         {
@@ -137,7 +130,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         foreach (StatusEffect.Name s in _statusEffectDisplays.Keys)
         {
             int stacks = card.GetStatusEffect(s);
-            if (stacks <= 0 ) { statusToRemove.Add(s); }
+            if (stacks <= 0) { statusToRemove.Add(s); }
             else { _statusEffectDisplays[s].value = stacks; }
         }
         foreach (StatusEffect.Name s in statusToRemove)
@@ -146,20 +139,27 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             _statusEffectDisplays.Remove(s);
             Destroy(display);
         }
-        
     }
-    public void SetStat(Card.StatName a_stat, int a_value)
+    private void RefreshStatDisplays()
     {
-        
-        if (_statDisplays.ContainsKey(a_stat))
+        foreach (Card.StatName sname in _statDisplays.Keys)
         {
-            _statDisplays[a_stat].value = a_value;
+            _statDisplays[sname].value = card.GetStat(sname);
         }
-        else if (_maxStatDisplays.ContainsKey(a_stat))
+        foreach (Card.StatName sname in _maxStatDisplays.Keys)
         {
-            _maxStatDisplays[a_stat].baseValue = a_value;
+            _maxStatDisplays[sname].baseValue = card.GetStat(sname);
         }
-        
+    }
+    private void RefreshUIState()
+    {
+        state = ITargetUI.State.DEFAULT;
+        if (card.humanControlled)
+        {
+            if (card.playable || card.activatable) { state = ITargetUI.State.PLAYABLE; }
+            else if (card is UnitCard && ((UnitCard)card).canAttack) { state = ITargetUI.State.PLAYABLE; }
+            else if (card.zone.type == CardZone.Type.DISCARD || card.zone.type == CardZone.Type.DECK) { state = ITargetUI.State.DEFAULT; }
+        }
     }
     private void InitStats(CardData a_data)
     {

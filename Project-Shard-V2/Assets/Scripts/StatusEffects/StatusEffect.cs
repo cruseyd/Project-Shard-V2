@@ -40,6 +40,8 @@ public abstract class StatusEffect : Ability, ISource
         {
             case Name.Poison:
                 return "At the start of your turn, this takes 1 damage and loses 1 stack of POISON.";
+            case Name.Acumen:
+                return "At the start of your turn, remove all stacks of ACUMEN and gain that much temporary FOCUS.";
             case Name.Sharpen:
                 return CardGameManager.cardIndex.Get("SHARPEN").text;
             default: return "";
