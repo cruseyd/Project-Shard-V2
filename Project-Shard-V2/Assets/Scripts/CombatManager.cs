@@ -7,9 +7,9 @@ using UnityEngine.UI;
 using System;
 using System.Reflection;
 
-public class CardGameManager : MonoBehaviour
+public class CombatManager : MonoBehaviour
 {
-    private static CardGameManager _instance;
+    private static CombatManager _instance;
     
     [SerializeField] private CardGameUI _gameUI;
     [SerializeField] private List<Decklist> _decks;

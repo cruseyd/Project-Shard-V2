@@ -376,14 +376,14 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         CardGameInput input = new CardGameInput(CardGameInput.Type.BEGIN_HOVER, this.transform, eventData);
-        CardGameManager.ProcessInput(input);
+        CombatManager.ProcessInput(input);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         
         CardGameInput input = new CardGameInput(CardGameInput.Type.END_HOVER, this.transform, eventData);
-        CardGameManager.ProcessInput(input);
+        CombatManager.ProcessInput(input);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -391,21 +391,21 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         ResetScale();
         _translating = true;
         CardGameInput input = new CardGameInput(CardGameInput.Type.BEGIN_DRAG, this.transform, eventData);
-        CardGameManager.ProcessInput(input);
+        CombatManager.ProcessInput(input);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
 
         CardGameInput input = new CardGameInput(CardGameInput.Type.CONTINUE_DRAG, this.transform, eventData);
-        CardGameManager.ProcessInput(input);
+        CombatManager.ProcessInput(input);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         _translating = false;
         CardGameInput input = new CardGameInput(CardGameInput.Type.END_DRAG, this.transform, eventData);
-        CardGameManager.ProcessInput(input);
+        CombatManager.ProcessInput(input);
     }
 
     public void DoubleClick(PointerEventData eventData)

@@ -257,12 +257,12 @@ public class CardGame
     {
         GameAction action = UndoAllActions();
         Debug.Log("ConfirmAction: " + action);
-        CardGameManager.ConfirmAction(action);
+        CombatManager.ConfirmAction(action);
     }
     public void ConfirmAction(GameAction a_action)
     {
         _actions.Clear();
-        CardGameManager.ConfirmAction(a_action);
+        CombatManager.ConfirmAction(a_action);
     }
 
     public void Print()

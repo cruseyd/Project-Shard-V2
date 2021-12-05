@@ -90,7 +90,7 @@ public class IdlePhase : GamePhase
                     if (card.ability.aMaxTargets == 0)
                     {
                         ActivateCard act = new ActivateCard(card, null);
-                        CardGameManager.ConfirmAction(act);
+                        CombatManager.ConfirmAction(act);
                     }
                     else
                     {
@@ -133,11 +133,11 @@ public class IdlePhase : GamePhase
                     if (a_input.Hovering(DropZone.ID.PLAY) && card.playable && !card.needsTarget)
                     {
                         PlayCard act = new PlayCard(card, null);
-                        CardGameManager.ConfirmAction(act);
+                        CombatManager.ConfirmAction(act);
                     } else if (a_input.Hovering(DropZone.ID.TRIBUTE) && card.owner.canTribute)
                     {
                         TributeCard act = new TributeCard(card);
-                        CardGameManager.ConfirmAction(act);
+                        CombatManager.ConfirmAction(act);
                     }
                     else
                     {
@@ -239,11 +239,11 @@ public class TargetingPhase : GamePhase
         {
             case Action.ACTIVATION:
                 ActivateCard activate = new ActivateCard(_source, _targets);
-                CardGameManager.ConfirmAction(activate);
+                CombatManager.ConfirmAction(activate);
                 break;
             case Action.PLAY:
                 PlayCard play = new PlayCard(_source, _targets);
-                CardGameManager.ConfirmAction(play);
+                CombatManager.ConfirmAction(play);
                 break;
         }
         
@@ -327,7 +327,7 @@ public class TargetingPhase : GamePhase
                                 if (!_validAttackTargets.Contains(d)) { return idle; }
 
                                 DeclareAttack declareAction = new DeclareAttack(unit, d);
-                                CardGameManager.ConfirmAction(declareAction);
+                                CombatManager.ConfirmAction(declareAction);
                                 return idle;
                             }
                         }
@@ -450,7 +450,7 @@ public class PreGamePhase : GamePhase
     public override GamePhase Confirm(CardGame a_game)
     {
         GameAction action = new StartTurn(a_game.humanPlayer);
-        CardGameManager.ConfirmAction(action);
+        CombatManager.ConfirmAction(action);
         return idle;
     }
 
@@ -460,7 +460,7 @@ public class PreGamePhase : GamePhase
         a_game.ui.SetConfirmButtonActive(true);
         a_game.ui.SetConfirmButtonText("Start Game");
         GameAction action = new StartGame();
-        CardGameManager.ConfirmAction(action);
+        CombatManager.ConfirmAction(action);
         return null;
     }
 

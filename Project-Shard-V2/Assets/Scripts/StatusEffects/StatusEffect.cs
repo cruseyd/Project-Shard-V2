@@ -43,7 +43,7 @@ public abstract class StatusEffect : Ability, ISource
             case Name.Acumen:
                 return "At the start of your turn, remove all stacks of ACUMEN and gain that much temporary FOCUS.";
             case Name.Sharpen:
-                return CardGameManager.cardIndex.Get("SHARPEN").text;
+                return CombatManager.cardIndex.Get("SHARPEN").text;
             default: return "";
         }
     }
