@@ -97,18 +97,12 @@ public class ActorUI : MonoBehaviour, ITargetUI, IDoubleClickable
     public void Refresh()
     {
         state = ITargetUI.State.DEFAULT;
-        foreach (Actor.StatName sname in _statDisplays.Keys)
-        {
-            _statDisplays[sname].value = actor.GetStat(sname);
-        }
-        foreach (Actor.StatName sname in _maxStatDisplays.Keys)
-        {
-            _maxStatDisplays[sname].baseValue = actor.GetStat(sname);
-        }
-        foreach (Actor.StatName sname in _thresholds.Keys)
-        {
-            _thresholds[sname].value = actor.GetStat(sname);
-        }
+        RefreshStatDisplays();
+        RefreshStatusEffects();
+    }
+
+    private void RefreshStatusEffects()
+    {
         List<StatusEffect.Name> statusToRemove = new List<StatusEffect.Name>();
         foreach (StatusEffect.Name s in actor.statusEffects.Keys)
         {
@@ -128,6 +122,22 @@ public class ActorUI : MonoBehaviour, ITargetUI, IDoubleClickable
         }
     }
 
+    private void RefreshStatDisplays()
+    {
+        foreach (Actor.StatName sname in _statDisplays.Keys)
+        {
+            _statDisplays[sname].value = actor.GetStat(sname);
+        }
+        foreach (Actor.StatName sname in _maxStatDisplays.Keys)
+        {
+            _maxStatDisplays[sname].baseValue = actor.GetStat(sname);
+        }
+        foreach (Actor.StatName sname in _thresholds.Keys)
+        {
+            _thresholds[sname].value = actor.GetStat(sname);
+        }
+    }
+
     private void ClearMarks()
     {
         _particles?.StopAll();
@@ -140,13 +150,16 @@ public class ActorUI : MonoBehaviour, ITargetUI, IDoubleClickable
     }
     private void MarkChosenTarget()
     {
+        
         _particles?.SetFaceColor(CardGameParams.cardSelectedTargetMainColor, 0);
         _particles?.SetFaceColor(CardGameParams.cardSelectedTargetSecondColor, 1);
         _particles?.PlayFace(true);
         _particles?.PlayEdge(false);
+        
     }
     private void MarkValidTarget()
     {
+        
         _particles?.SetFaceColor(CardGameParams.cardValidTargetMainColor, 0);
         _particles?.SetFaceColor(CardGameParams.cardValidTargetSecondColor, 1);
         _particles?.PlayFace(true);

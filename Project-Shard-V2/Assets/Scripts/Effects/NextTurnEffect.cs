@@ -14,9 +14,9 @@ public class NextTurnEffect : GameEffect
     {
         foreach (Actor player in a_game.players)
         {
-            player.ui.state = ITargetUI.State.SOURCE;
+            player.ui.state = ITargetUI.State.DEFAULT;
         }
-        a_game.currentPlayer.ui.state = ITargetUI.State.DEFAULT;
+        a_game.currentPlayer.ui.state = ITargetUI.State.SOURCE;
     }
 
     public override void Undo(CardGame a_game)
