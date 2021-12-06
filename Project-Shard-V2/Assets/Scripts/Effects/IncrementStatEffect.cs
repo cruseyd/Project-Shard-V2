@@ -35,23 +35,23 @@ public class IncrementActorStatEffect : GameEffect
 }
 public class IncrementCardStatEffect : GameEffect
 {
-    private Card.StatName _stat;
+    private CardStats.Name _stat;
     private int _value;
     private int _prevValue;
     private Card _card;
 
-    public IncrementCardStatEffect(Card.StatName a_stat, int a_value, Card a_card)
+    public IncrementCardStatEffect(CardStats.Name a_stat, int a_value, Card a_card)
     {
         _stat = a_stat;
         _value = a_value;
         _card = a_card;
-        _prevValue = a_card.GetStat(a_stat);
+        _prevValue = a_card.stats.Get(a_stat);
     }
 
     public override void Execute(CardGame a_game)
     {
         base.Execute(a_game);
-        _card.IncrementStat(_stat, _value);
+        _card.stats.Increment(_stat, _value);
     }
 
     public override void Show(CardGame a_game)
@@ -61,6 +61,6 @@ public class IncrementCardStatEffect : GameEffect
 
     public override void Undo(CardGame a_game)
     {
-        _card.SetStat(_stat, _prevValue);
+        _card.stats.Set(_stat, _prevValue);
     }
 }

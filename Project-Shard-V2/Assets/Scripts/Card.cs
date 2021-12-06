@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Card : ITarget, IModifiable, ISource
 {
+    /*
     public enum StatName
     {
         DEFAULT,
@@ -13,7 +14,7 @@ public abstract class Card : ITarget, IModifiable, ISource
         MAX_HEALTH,
         DEFIANCE
     }
-
+    */
     public enum Type
     {
         DEFAULT,
@@ -44,9 +45,9 @@ public abstract class Card : ITarget, IModifiable, ISource
         }
     }
 
-
-    protected Dictionary<StatName, int> _stats;
-    protected List<CardModifier> _modifiers;
+    protected CardStats _stats;
+    //protected Dictionary<StatName, int> _stats;
+    //protected List<CardModifier> _modifiers;
     protected Dictionary<StatusEffect.Name, StatusEffect> _statusEffects;
     protected Dictionary<AbilityKeyword, KeyAbility> _keyAbilities;
     protected CardGame _game;
@@ -80,6 +81,18 @@ public abstract class Card : ITarget, IModifiable, ISource
             return output;
         }
     }
+    public CardStats stats
+    {
+        get
+        {
+            return _stats;
+        }
+        set
+        {
+            _stats = value;
+        }
+    }
+    /*
     public GenericDictionary<Card.StatName, int> stats
     {
         get
@@ -92,16 +105,12 @@ public abstract class Card : ITarget, IModifiable, ISource
             return output;
         }
     }
+    */
     public List<CardModifier> modifiers
     {
         get
         {
-            List<CardModifier> mods = new List<CardModifier>();
-            foreach (CardModifier mod in _modifiers)
-            {
-                mods.Add(mod);
-            }
-            return mods;
+            return _stats.modifiers;
         }
     }
     //=============================================================================================
@@ -167,8 +176,9 @@ public abstract class Card : ITarget, IModifiable, ISource
         events = new CardEvents(this);
         sourceEvents = new SourceEvents(this);
 
-        _stats = new Dictionary<StatName, int>();
-        _modifiers = new List<CardModifier>();
+        //_stats = new Dictionary<StatName, int>();
+        //_modifiers = new List<CardModifier>();
+        _stats = new CardStats(this);
         _statusEffects = new Dictionary<StatusEffect.Name, StatusEffect>();
 
         ability = CardAbility.Get(a_game, data.id, this);
@@ -191,7 +201,7 @@ public abstract class Card : ITarget, IModifiable, ISource
     public virtual void Initialize()
     {
         RemoveAllStatusEffects();
-        RemoveAllModifiers();
+        stats.RemoveAllModifiers();
     }
     public virtual void Refresh()
     {
@@ -220,6 +230,7 @@ public abstract class Card : ITarget, IModifiable, ISource
     {
         return _keyAbilities.ContainsKey(a_key);
     }
+    /*
     public int GetStat(StatName a_stat)
     {
         if (!_stats.ContainsKey(a_stat)) { return 0; }
@@ -251,6 +262,7 @@ public abstract class Card : ITarget, IModifiable, ISource
             _stats[a_stat] = a_value;
         }
     }
+    */
     public void SetOwner(Actor a_actor)
     {
         if (owner != a_actor)
@@ -262,12 +274,13 @@ public abstract class Card : ITarget, IModifiable, ISource
             };
         }
     }
+    /*
     public void IncrementStat(StatName a_stat, int a_value)
     {
         Debug.Assert(_stats.ContainsKey(a_stat));
-        //Debug.Log("health = " + _stats[a_stat] + " | Incrementing " + a_stat + " of " + data.name + " by " + a_value);
         _stats[a_stat] += a_value;
     }
+    */
     public int RequiredThreshold(Card.Color a_color)
     {
         int n = 0;
@@ -293,35 +306,20 @@ public abstract class Card : ITarget, IModifiable, ISource
 
     //=============================================================================================
     // IModifiable Interface
+    
     public void RemoveModifier(Modifier a_modifier)
     {
-        if (a_modifier is CardModifier)
-        {
-            CardModifier mod = a_modifier as CardModifier;
-            if (!_modifiers.Contains(mod)) { return; }
-            _modifiers.Remove(mod);
-            mod.Deactivate();
-        }
+        stats.RemoveModifier(a_modifier);
     }
     public void AddModifier(Modifier a_modifier)
     {
-        if (a_modifier is CardModifier)
-        {
-            CardModifier mod = a_modifier as CardModifier;
-            if (_modifiers.Contains(mod)){ return; }
-            _modifiers.Add(mod);
-            mod.Activate();
-            
-        }
+        stats.AddModifier(a_modifier);
     }
     public void RemoveAllModifiers()
     {
-        foreach (CardModifier mod in modifiers)
-        {
-            RemoveModifier(mod);
-        }
+        stats.RemoveAllModifiers();
     }
-
+    
 
     //=============================================================================================
     // ITarget / ISource

@@ -164,15 +164,15 @@ public class CardData : IComparable
             return Actor.StatName.DEFAULT;
         }
     }
-    public int GetStat(Card.StatName a_stat)
+    public int GetStat(CardStats.Name a_stat)
     {
         switch (a_stat)
         {
-            case Card.StatName.LEVEL: return level;
-            case Card.StatName.POWER: return power;
-            case Card.StatName.HEALTH: return health;
-            case Card.StatName.MAX_HEALTH: return health;
-            case Card.StatName.DEFIANCE: return defiance;
+            case CardStats.Name.LEVEL: return level;
+            case CardStats.Name.POWER: return power;
+            case CardStats.Name.HEALTH: return health;
+            case CardStats.Name.MAX_HEALTH: return health;
+            case CardStats.Name.DEFIANCE: return defiance;
             default:
                 Debug.LogError("CardData::GetStat | Error: Unrecognized Stat Name: " + a_stat);
                 return 0;

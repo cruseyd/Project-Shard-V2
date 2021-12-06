@@ -18,9 +18,9 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private TextMeshProUGUI _abilityText;
     [SerializeField] private TextMeshProUGUI _keywordText;
     [SerializeField] private Image _textUnderlay;
-    [SerializeField] private GenericDictionary<Card.StatName, ValueDisplay> _statDisplays;
+    [SerializeField] private GenericDictionary<CardStats.Name, ValueDisplay> _statDisplays;
     [SerializeField] private GenericDictionary<StatusEffect.Name, ValueDisplay> _statusEffectDisplays;
-    [SerializeField] private GenericDictionary<Card.StatName, ValueDisplay> _maxStatDisplays;
+    [SerializeField] private GenericDictionary<CardStats.Name, ValueDisplay> _maxStatDisplays;
     [SerializeField] private List<ThresholdDisplay> _thresholdDisplays;
     
     [SerializeField] private CardParticles _particles;
@@ -141,13 +141,13 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     private void RefreshStatDisplays()
     {
-        foreach (Card.StatName sname in _statDisplays.Keys)
+        foreach (CardStats.Name sname in _statDisplays.Keys)
         {
-            _statDisplays[sname].value = card.GetStat(sname);
+            _statDisplays[sname].value = card.stats.Get(sname);
         }
-        foreach (Card.StatName sname in _maxStatDisplays.Keys)
+        foreach (CardStats.Name sname in _maxStatDisplays.Keys)
         {
-            _maxStatDisplays[sname].baseValue = card.GetStat(sname);
+            _maxStatDisplays[sname].baseValue = card.stats.Get(sname);
         }
     }
     private void RefreshUIState()
@@ -162,15 +162,15 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     private void InitStats(CardData a_data)
     {
-        foreach (Card.StatName sname in CardGameParams.cardStatPairs.Keys)
+        foreach (CardStats.Name sname in CardGameParams.cardStatPairs.Keys)
         {
             if (!_statDisplays.ContainsKey(sname)) { continue; }
             ValueDisplay display = _statDisplays[sname];
             if (display == null) { continue; }
 
             display.value = a_data.GetStat(sname);
-            Card.StatName bottomStat = CardGameParams.cardStatPairs[sname];
-            if (bottomStat == Card.StatName.DEFAULT)
+            CardStats.Name bottomStat = CardGameParams.cardStatPairs[sname];
+            if (bottomStat == CardStats.Name.DEFAULT)
             {
                 display.baseValue = a_data.GetStat(sname);
             }
@@ -483,7 +483,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         if (tooltip != null)
         {
             tooltip.header = a_status.ToString().ToLower();
-            tooltip.header = tooltip.header[0].ToString().ToUpper() + tooltip.header.Substring(1);
             tooltip.content = StatusEffect.Tooltip(a_status);
         }
         _statusEffectDisplays[a_status] = statusDisplay.GetComponent<ValueDisplay>();

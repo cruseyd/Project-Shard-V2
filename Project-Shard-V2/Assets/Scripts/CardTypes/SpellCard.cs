@@ -12,7 +12,7 @@ public class SpellCard : Card
     public override void Initialize()
     {
         base.Initialize();
-        _stats[StatName.LEVEL] = data.level;
+        stats.Set(CardStats.Name.LEVEL, data.level);
     }
 
     public override CardUI Spawn(Vector3 a_spawnPosition, CardZoneUI a_zone)
@@ -33,6 +33,6 @@ public class SpellCard : Card
 
     public override string ToString()
     {
-        return data.name + " | level: " + GetStat(StatName.LEVEL);
+        return data.name + " | level: " + stats.Get(CardStats.Name.LEVEL);
     }
 }

@@ -162,7 +162,7 @@ public class Actor : ITarget, IModifiable, IDamageable
         int totalDefiance = 0;
         foreach (UnitCard unit in units)
         {
-            totalDefiance += unit.GetStat(Card.StatName.DEFIANCE);
+            totalDefiance += unit.stats.Get(CardStats.Name.DEFIANCE);
         }
         SetStat(StatName.TOTAL_DEFIANCE, totalDefiance);
     }

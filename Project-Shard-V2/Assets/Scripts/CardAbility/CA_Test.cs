@@ -25,7 +25,7 @@ public class CA_BuffSpell : CardAbility
     }
     public override void Play(List<ITarget> a_targets)
     {
-        CardStatModifier mod = new CardStatModifier(Card.StatName.POWER, _source.data.var1, _game, _source, (Card)a_targets[0], Modifier.Duration.TARGET_LEAVE_PLAY);
+        CardStatModifier mod = new CardStatModifier(CardStats.Name.POWER, _source.data.var1, _game, _source, (Card)a_targets[0], Modifier.Duration.TARGET_LEAVE_PLAY);
         AddModifier(mod);
     }
 }
@@ -44,7 +44,7 @@ public class CA_BuffUnit : CardAbility
         query.isCard = true;
         query.zones.Add(CardZone.Type.ACTIVE);
         ActorCardStatModifier mod = new ActorCardStatModifier
-            (query, Card.StatName.LEVEL, 1, _game, _source, _source.owner, Modifier.Duration.SOURCE);
+            (query, CardStats.Name.LEVEL, 1, _game, _source, _source.owner, Modifier.Duration.SOURCE);
         AddModifier(mod);
     }
 }

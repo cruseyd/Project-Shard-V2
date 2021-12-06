@@ -7,7 +7,6 @@ using TMPro;
 public class CardGameUI : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _tooltipWindow;
     [SerializeField] private GenericDictionary<CardZone.Type, CardZoneUI> _neutralZones;
     [SerializeField] private DropZone _dropZone;
     [SerializeField] private DropZone _tributeZone;
@@ -22,7 +21,6 @@ public class CardGameUI : MonoBehaviour
     private void Awake()
     {
         EnableDropZone(false);
-        Tooltip._window = _tooltipWindow;
         players = new List<ActorUI>();
     }
 

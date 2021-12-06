@@ -179,7 +179,6 @@ public class ActorUI : MonoBehaviour, ITargetUI, IDoubleClickable
         if (tooltip != null)
         {
             tooltip.header = a_status.ToString().ToLower();
-            tooltip.header = tooltip.header[0].ToString().ToUpper() + tooltip.header.Substring(1);
             tooltip.content = StatusEffect.Tooltip(a_status);
         }
         _statusEffectDisplays[a_status] = statusDisplay.GetComponent<ValueDisplay>();

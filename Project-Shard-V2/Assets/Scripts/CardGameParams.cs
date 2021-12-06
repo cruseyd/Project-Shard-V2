@@ -9,7 +9,7 @@ public class CardGameParams : MonoBehaviour
 
     [SerializeField] private float _cardAnimationRate;
     [SerializeField] private float _cardHeight;
-    [SerializeField] private GenericDictionary<Card.StatName, Card.StatName> _cardStatPairs;
+    [SerializeField] private GenericDictionary<CardStats.Name, CardStats.Name> _cardStatPairs;
     [SerializeField] private GenericDictionary<Card.Color, Color> _cardColors;
     [SerializeField] private GenericDictionary<Card.Color, Sprite> _cardSprites;
     [SerializeField] private GenericDictionary<Card.Type, GameObject> _cardPrefabs;
@@ -35,7 +35,7 @@ public class CardGameParams : MonoBehaviour
     public static int playerStartingResource { get { return _instance._playerStartingResource; } }
     public static float cardAnimationRate { get { return _instance._cardAnimationRate; } }
     public static float cardHeight { get { return _instance._cardHeight; } }
-    public static GenericDictionary<Card.StatName, Card.StatName> cardStatPairs { get { return _instance._cardStatPairs; } }
+    public static GenericDictionary<CardStats.Name, CardStats.Name> cardStatPairs { get { return _instance._cardStatPairs; } }
     
     public static Gradient cardSourceGradient { get { return _instance._cardSourceGradient; } }
     public static Gradient cardTributeGradient { get { return _instance._cardTributeGradient; } }

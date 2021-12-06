@@ -5,9 +5,9 @@ using UnityEngine;
 public class UnitCard : Card, IDamageable
 {
     public DamageableEvents damageEvents { get; private set; }
-    public int health { get { return GetStat(StatName.HEALTH); } }
-    public int maxHealth { get { return GetStat(StatName.MAX_HEALTH); } }
-    public int power { get { return GetStat(StatName.POWER); } }
+    public int health { get { return stats.Get(CardStats.Name.HEALTH); } }
+    public int maxHealth { get { return stats.Get(CardStats.Name.MAX_HEALTH); } }
+    public int power { get { return stats.Get(CardStats.Name.POWER); } }
     public bool canAttack
     {
         get
@@ -52,20 +52,20 @@ public class UnitCard : Card, IDamageable
     public override string ToString()
     {
         string output = data.name;
-        output += " | level: " + GetStat(StatName.LEVEL);
-        output += " | power: " + GetStat(StatName.POWER);
-        output += " | health: " + GetStat(StatName.HEALTH) + "/" + GetStat(StatName.MAX_HEALTH);
-        output += " | defiance: " + GetStat(StatName.DEFIANCE);
+        output += " | level: " + stats.Get(CardStats.Name.LEVEL);
+        output += " | power: " + stats.Get(CardStats.Name.POWER);
+        output += " | health: " + stats.Get(CardStats.Name.HEALTH) + "/" + stats.Get(CardStats.Name.MAX_HEALTH);
+        output += " | defiance: " + stats.Get(CardStats.Name.DEFIANCE);
         return output;
     }
     public override void Initialize()
     {
         base.Initialize();
-        _stats[StatName.HEALTH] = data.health;
-        _stats[StatName.MAX_HEALTH] = data.health;
-        _stats[StatName.POWER] = data.power;
-        _stats[StatName.LEVEL] = data.level;
-        _stats[StatName.DEFIANCE] = data.defiance;
+        stats.Set(CardStats.Name.HEALTH, data.health);
+        stats.Set(CardStats.Name.MAX_HEALTH, data.health);
+        stats.Set(CardStats.Name.POWER, data.power);
+        stats.Set(CardStats.Name.LEVEL, data.level);
+        stats.Set(CardStats.Name.DEFIANCE, data.defiance);
     }
 
    
@@ -81,7 +81,7 @@ public class UnitCard : Card, IDamageable
             a_damageData.damage = Mathf.Clamp(a_damageData.damage, maxHeal, 0);
         }
 
-        IncrementStat(StatName.HEALTH, -a_damageData.damage);
+        stats.Increment(CardStats.Name.HEALTH, -a_damageData.damage);
         a_damageData.locked = true; //if the data is altered after this, undo wont work
         
         if (a_damageData.damage > 0)
@@ -98,6 +98,6 @@ public class UnitCard : Card, IDamageable
     
     public void SetHealth(int a_value)
     {
-        SetStat(StatName.HEALTH, a_value);
+        stats.Set(CardStats.Name.HEALTH, a_value);
     }
 }

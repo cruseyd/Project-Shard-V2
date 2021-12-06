@@ -65,9 +65,9 @@ public class CardGame
         score += 10.0f*a_actor.health;
         foreach (Card card in a_actor.active.cards)
         {
-            score += card.GetStat(Card.StatName.LEVEL);
-            score += card.GetStat(Card.StatName.HEALTH);
-            score += card.GetStat(Card.StatName.POWER);
+            score += card.stats.Get(CardStats.Name.LEVEL);
+            score += card.stats.Get(CardStats.Name.HEALTH);
+            score += card.stats.Get(CardStats.Name.POWER);
             foreach (StatusEffect.Name s in card.statusEffects.Keys)
             {
                 score += EvaluateStatusEffect(s, card.GetStatusEffect(s));
@@ -79,9 +79,9 @@ public class CardGame
             score -= 10.0f*opponent.health;
             foreach (Card card in opponent.active.cards)
             {
-                score -= card.GetStat(Card.StatName.LEVEL);
-                score -= card.GetStat(Card.StatName.HEALTH);
-                score -= card.GetStat(Card.StatName.POWER);
+                score -= card.stats.Get(CardStats.Name.LEVEL);
+                score -= card.stats.Get(CardStats.Name.HEALTH);
+                score -= card.stats.Get(CardStats.Name.POWER);
                 foreach (StatusEffect.Name s in card.statusEffects.Keys)
                 {
                     score -= EvaluateStatusEffect(s, card.GetStatusEffect(s));
