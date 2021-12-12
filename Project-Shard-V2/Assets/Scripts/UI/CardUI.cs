@@ -29,7 +29,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     private bool _trackingMouse = false;
     private bool _faceUp = false;
     private ITargetUI.State _state;
-
+    private CardData _data;
     public bool trackingMouse
     {
         get { return _trackingMouse; }
@@ -88,30 +88,36 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void Initialize(Card a_card)
     {
         card = a_card;
-        _nameText.text = card.data.name;
+        Initialize(card.data);
+    }
+    public void Initialize(CardData a_data)
+    {
+        _data = a_data;
+        _nameText.text = a_data.name;
         _keywordText.text = "";
-        if (card.data.k1 != null) { _keywordText.text += card.data.k1; }
-        if (card.data.k2 != null) { _keywordText.text += (" " + card.data.k2); }
-        if (card.data.k3 != null) { _keywordText.text += (" " + card.data.k3); }
+        if (a_data.k1 != null) { _keywordText.text += a_data.k1; }
+        if (a_data.k2 != null) { _keywordText.text += (" " + a_data.k2); }
+        if (a_data.k3 != null) { _keywordText.text += (" " + a_data.k3); }
 
         _abilityText.text = "<b><color=yellow>";
-        if (card.data.ka1 != null) { _abilityText.text += card.data.ka1; }
-        if (card.data.ka2 != null) { _abilityText.text += (", " + card.data.ka2); }
-        if (card.data.ka3 != null) { _abilityText.text += (", " + card.data.ka3); }
-        if (a_card.data.abilityKeywords.Count > 0)
+        if (a_data.ka1 != null) { _abilityText.text += a_data.ka1; }
+        if (a_data.ka2 != null) { _abilityText.text += (", " + a_data.ka2); }
+        if (a_data.ka3 != null) { _abilityText.text += (", " + a_data.ka3); }
+        if (a_data.abilityKeywords.Count > 0)
         {
             _abilityText.text += "\n";
         }
         _abilityText.text += "</color></b>";
-        _abilityText.text += card.data.text;
+        _abilityText.text += a_data.text;
         _abilityText.text += "</b>";
         _particles = GetComponent<CardParticles>();
-        InitStats(card.data);
-        _cardFront.GetComponent<Image>().sprite = CardGameParams.GetCardSprite(card.data.color);
+        InitStats(a_data);
+        _cardFront.GetComponent<Image>().sprite = CardGameParams.GetCardSprite(a_data.color);
         state = ITargetUI.State.DEFAULT;
     }
     public virtual void Refresh()
     {
+        if (card == null) { return; }
         ResetPosition();
         ResetScale();
         
@@ -238,16 +244,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             Vector3 dr = r.normalized * distance * a_minSpeed;
             transform.position += dr;
         }
-        /*
-        float minDist = Time.deltaTime * a_minSpeed;
-        Vector3 r = a_target - transform.position;
-        Vector3 dr = r.normalized;
-        float R = r.magnitude;
-        float dx = R / CardGameParams.cardAnimationRate * Time.deltaTime;
-        Vector3 increment = dr * Mathf.Max(dx, minDist);
-        if (increment.magnitude <= 0) { Debug.Log("Tracking stalled"); }
-        transform.position = transform.position + increment;
-        */
     }
     public void Translate(Vector2 targetPos, float duration = 0)
     {
@@ -376,14 +372,14 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         CardGameInput input = new CardGameInput(CardGameInput.Type.BEGIN_HOVER, this.transform, eventData);
-        CombatManager.ProcessInput(input);
+        GameManager.ProcessInput(input);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         
         CardGameInput input = new CardGameInput(CardGameInput.Type.END_HOVER, this.transform, eventData);
-        CombatManager.ProcessInput(input);
+        GameManager.ProcessInput(input);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -391,21 +387,21 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         ResetScale();
         _translating = true;
         CardGameInput input = new CardGameInput(CardGameInput.Type.BEGIN_DRAG, this.transform, eventData);
-        CombatManager.ProcessInput(input);
+        GameManager.ProcessInput(input);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
 
         CardGameInput input = new CardGameInput(CardGameInput.Type.CONTINUE_DRAG, this.transform, eventData);
-        CombatManager.ProcessInput(input);
+        GameManager.ProcessInput(input);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         _translating = false;
         CardGameInput input = new CardGameInput(CardGameInput.Type.END_DRAG, this.transform, eventData);
-        CombatManager.ProcessInput(input);
+        GameManager.ProcessInput(input);
     }
 
     public void DoubleClick(PointerEventData eventData)
@@ -444,7 +440,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     private void MarkPlayable()
     {
         Color rayColor = Color.white;
-        switch (card.data.color)
+        switch (_data.color)
         {
             case Card.Color.BLUE:
                 rayColor = new Color(0, 200, 100, 0.05f); break;

@@ -12,13 +12,12 @@ public class CombatManager : MonoBehaviour
     private static CombatManager _instance;
     
     [SerializeField] private CardGameUI _gameUI;
-    [SerializeField] private List<Decklist> _decks;
+    
 
     private CardGame _game;
-    private CardIndex _cardIndex;
     private GamePhase _phaseValue;
     private float _lastButtonPress;
-    private float _lastLeftClick;
+    //private float _lastLeftClick;
     private bool _buttonsEnabled;
 
     public static GamePhase.Name phase
@@ -48,17 +47,15 @@ public class CombatManager : MonoBehaviour
             }
         }
     }
-    public static CardIndex cardIndex { get { return _instance._cardIndex; } }
     public float buttonCooldown;
     void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
-            _cardIndex = new CardIndex();
             _game = new CardGame();
             _buttonsEnabled = true;
-            _lastLeftClick = 0.0f;
+           // _lastLeftClick = 0.0f;
         } else
         {
             Destroy(this.gameObject);
@@ -67,51 +64,13 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
         _game.SetUI(_gameUI);
-        // This is temporary
-        for (int ii = 0; ii < _decks.Count; ii++)
-        {
-            _game.Player(ii).SetDeck(_decks[ii]);
-        }
+        _game.Player(0).SetDeck(GameManager.GetDecklist(0));
+        _game.Player(1).SetDeck(GameManager.GetDecklist(1));
         _phase = GamePhase.preGame;
     }
     void Update()
     {
         if (!_buttonsEnabled && (Time.time - _lastButtonPress) > buttonCooldown) { _buttonsEnabled = true; }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GamePhase newPhase = _phase.ProcessInput(_game, new CardGameInput(CardGameInput.Type.CANCEL, null, null));
-            if (newPhase != null) { _phase = newPhase; }
-            else { _phase = GamePhase.idle; }
-        } else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GamePhase newPhase = _phase.ProcessInput(_game, new CardGameInput(CardGameInput.Type.CONFIRM, null, null));
-            if (newPhase != null) { _phase = newPhase; }
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            if ( (Time.time - _lastLeftClick) < 0.5f)
-            {
-                PointerEventData eventData = new PointerEventData(EventSystem.current);
-                eventData.position = Input.mousePosition;
-                List<RaycastResult> hits = new List<RaycastResult>();
-                GetComponent<GraphicRaycaster>().Raycast(eventData, hits);
-                foreach (RaycastResult hit in hits)
-                {
-                    IDoubleClickable target = hit.gameObject.GetComponent<IDoubleClickable>();
-                    if (target != null)
-                    {
-                        target.DoubleClick(eventData);
-                        GamePhase newPhase = _phase.ProcessInput(_game,
-                            new CardGameInput(CardGameInput.Type.DOUBLE_CLICK, target.gameObject.transform, eventData));
-                        if (newPhase != null) { _phase = newPhase; }
-                    }
-                }
-                _lastLeftClick = 0.0f;
-            } else
-            {
-                _lastLeftClick = Time.time;
-            }
-        }
     }
 
     public void ConfirmButton()
@@ -129,16 +88,25 @@ public class CombatManager : MonoBehaviour
     {
         _game.Print();
     }
-    public static void ProcessInput(CardGameInput a_input)
+    public static bool ProcessInput(CardGameInput a_input)
     {
+        if (_instance == null) { return false; }
         GamePhase newPhase = _instance._phase.ProcessInput(_instance._game, a_input);
         if (newPhase != null)
         {
             _instance._phase = newPhase;
+        } else
+        {
+            if (a_input.type == CardGameInput.Type.CANCEL)
+            {
+                _instance._phase = GamePhase.idle;
+            }
         }
+        return true;
     }
     public static void ConfirmAction(GameAction a_action)
     {
+        if (_instance == null) { return; }
         if (!a_action.IsValid(_instance._game)) { return; }
         if (a_action.actor == _instance._game.humanPlayer || (!a_action.previewForAI))
         {

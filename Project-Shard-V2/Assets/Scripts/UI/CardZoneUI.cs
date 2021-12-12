@@ -10,12 +10,10 @@ public class CardZoneUI : MonoBehaviour
         SPREAD,
         STACK
     }
-
     [SerializeField] private Alignment _alignment;
 
     private RectTransform _rect;
     private float _scale = 1.0f;
-
     public Alignment alignment { get { return _alignment; } }
 
     public float scale
@@ -46,7 +44,7 @@ public class CardZoneUI : MonoBehaviour
             float spacing = width / (1.0f * numCards);
             float xpos = -width / 2.0f + spacing / 2.0f;
             return xpos + a_zoneIndex * spacing;
-        }
+        } 
         else
         {
             return 0;

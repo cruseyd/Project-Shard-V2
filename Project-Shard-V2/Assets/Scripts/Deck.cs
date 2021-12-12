@@ -19,7 +19,7 @@ public class Deck : CardZone
         {
             foreach (DecklistItem item in a_list.list)
             {
-                CardData data = CombatManager.cardIndex.Get(item.id);
+                CardData data = GameManager.cardIndex.Get(item.id);
                 for (int ii = 0; ii < item.qty; ii++)
                 {
                     Card card = Card.Get(_game, data, owner);

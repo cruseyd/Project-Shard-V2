@@ -106,13 +106,6 @@ public abstract class Card : ITarget, IModifiable, ISource
         }
     }
     */
-    public List<CardModifier> modifiers
-    {
-        get
-        {
-            return _stats.modifiers;
-        }
-    }
     //=============================================================================================
     // Boolean flags
     public bool playable

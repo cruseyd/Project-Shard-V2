@@ -27,7 +27,7 @@ public class CardIndex
             for (int ii = 0; ii < cardArray.data.Length; ii++)
             {
                 _cards.Add(cardArray.data[ii]);
-                Debug.Log("Added Card: " + cardArray.data[ii].name);
+                //Debug.Log("Added Card: " + cardArray.data[ii].name);
             }
         }
         

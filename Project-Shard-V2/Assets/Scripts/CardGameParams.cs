@@ -56,15 +56,10 @@ public class CardGameParams : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            DontDestroyOnLoad(this);
         } else
         {
             Destroy(this.gameObject);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
