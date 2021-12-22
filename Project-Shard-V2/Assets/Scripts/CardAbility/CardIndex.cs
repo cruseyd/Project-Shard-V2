@@ -8,6 +8,19 @@ public class CardIndex
 {
     private List<CardData> _cards;
 
+    public List<CardData> cards
+    {
+        get
+        {
+            List<CardData> allCards = new List<CardData>();
+            foreach (CardData data in _cards)
+            {
+                allCards.Add(data);
+            }
+            Debug.Log("returning " + allCards.Count + " cards");
+            return allCards;
+        }
+    }
     public CardIndex()
     {
         _cards = new List<CardData>();
@@ -30,7 +43,7 @@ public class CardIndex
                 //Debug.Log("Added Card: " + cardArray.data[ii].name);
             }
         }
-        
+        Debug.Log("Added " + _cards.Count + " cards");
     }
 
     public CardData Get(string a_id)
@@ -42,4 +55,6 @@ public class CardIndex
         Debug.Log("CardIndex::Get | Warning: Card not found: " + a_id);
         return null;
     }
+
+    
 }

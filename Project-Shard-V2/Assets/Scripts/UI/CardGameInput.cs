@@ -21,7 +21,7 @@ public class CardGameInput
     }
 
     public Type type { get; private set; }
-    public ITarget target { get; private set; }
+    public ITargetUI target { get; private set; }
 
     public List<ITarget>  hoveredTargets { get; private set; }
     public List<DropZone> dropZones { get; private set; }
@@ -47,7 +47,7 @@ public class CardGameInput
         ITargetUI target_ui = a_target.gameObject.GetComponent<ITargetUI>();
         if (target_ui != null)
         {
-            target = target_ui.data;
+            target = target_ui;
         }
     }
 

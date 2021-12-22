@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class DeckBuilderUI : MonoBehaviour
 {
-    [SerializeField] private Transform _cardPool;
-    private List<CardZoneUI> _cardPoolRows;
+    [SerializeField] private CardZoneUI _cardPool;
 
     private void Awake()
+    { }
+
+
+    private void Start()
     {
-        _cardPoolRows = new List<CardZoneUI>();
-        CardZoneUI[] cardZones = _cardPool.GetComponentsInChildren<CardZoneUI>();
-        Debug.Log("Found " + cardZones.Length + " CardZoneUI");
-        foreach (CardZoneUI ui in cardZones)
+        List<CardData> cards = GameManager.cardIndex.cards;
+        foreach (CardData data in cards)
         {
-            ui.Organize();
-            _cardPoolRows.Add(ui);
+            CardUI card = CardUI.Spawn(data, _cardPool);
+            card.FaceUp(true);
         }
     }
-
     private void Update()
     {
-        foreach (CardZoneUI ui in _cardPoolRows)
-        {
-           // ui.Organize();
-        }
     }
 }

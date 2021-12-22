@@ -11,8 +11,10 @@ public class GameManager : MonoBehaviour
 
     private CardIndex _cardIndex;
     private float _lastLeftClick = 0f;
+    private Transform _draggedItemPrevTransform;
     [SerializeField] private List<Decklist> _decks;
     [SerializeField] private Canvas _mainCanvas;
+    [SerializeField] private Canvas _overrideCanvas;
     public static CardIndex cardIndex
     {
         get
@@ -83,6 +85,32 @@ public class GameManager : MonoBehaviour
     {
         if (CombatManager.ProcessInput(a_input)) { return; }
         // other scene managers here
-        // default behavior (if any)
+        if (a_input.target is CardUI)
+        {
+            CardUI card = a_input.target as CardUI;
+            switch (a_input.type)
+            {
+                case CardGameInput.Type.BEGIN_HOVER:
+                    //card.Zoom(true);
+                    break;
+                case CardGameInput.Type.END_HOVER:
+                    //card.Zoom(false);
+                    break;
+                case CardGameInput.Type.BEGIN_DRAG:
+                case CardGameInput.Type.CONTINUE_DRAG:
+                    card.trackingMouse = true;
+                    _instance._draggedItemPrevTransform = card.transform;
+                    card.transform.SetParent(_instance._overrideCanvas.transform);
+                    break;
+                case CardGameInput.Type.END_DRAG:
+                    card.transform.SetParent(_instance._draggedItemPrevTransform);
+                    card.trackingMouse = false;
+                    card.zone.Organize();
+                    break;
+
+                default: break;
+            }
+        }
+        
     }
 }

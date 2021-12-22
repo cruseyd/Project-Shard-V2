@@ -34,6 +34,17 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void LoadScene(string a_sceneName)
+    {
+        if (_active.name == a_sceneName)
+        {
+            Close();
+        }
+        else
+        {
+            SceneManager.LoadScene(a_sceneName);
+        }
+    }
     public void MainMenuButton()
     {
         if (_active.name == "MainMenuScene")

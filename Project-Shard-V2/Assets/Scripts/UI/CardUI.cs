@@ -27,7 +27,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private bool _translating = false;
     private bool _trackingMouse = false;
-    private bool _faceUp = false;
+    [SerializeField] private bool _faceUp = false;
     private ITargetUI.State _state;
     private CardData _data;
     public bool trackingMouse
@@ -78,12 +78,23 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     public int zoneIndex;
     public CardZoneUI zone { get { return GetComponentInParent<CardZoneUI>(); } }
-    public void Update()
+    public void FixedUpdate()
     {
         if (trackingMouse)
         {
             Track(Input.mousePosition, 0.1f);
         }
+    }
+    public static CardUI Spawn(CardData a_data, CardZoneUI a_zone)
+    {
+        int index = a_zone.transform.childCount;
+        Vector2 spawnPos = (Vector2)a_zone.transform.position + a_zone.Position(index);
+        GameObject cardGO = GameObject.Instantiate(CardGameParams.GetCardPrefab(a_data.type),
+            spawnPos, Quaternion.identity);
+        CardUI ui = cardGO.GetComponent<CardUI>();
+        ui.transform.SetParent(a_zone.transform);
+        ui.Initialize(a_data);
+        return ui;
     }
     public void Initialize(Card a_card)
     {
@@ -284,7 +295,8 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         OverrideSorting(flag);
         if (zone)
         {
-            basePosition = new Vector2(zone.Position(zoneIndex) + transform.parent.position.x, transform.parent.position.y);
+            basePosition = zone.Position(zoneIndex) + (Vector2)transform.parent.position;
+            //basePosition = new Vector2(zone.Position(zoneIndex) + transform.parent.position.x, transform.parent.position.y);
         }
         else
         {
@@ -293,7 +305,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         if (flag)
         {
             //_nameText.transform.localPosition = new Vector2(0, 0);
-            if (zone.alignment != CardZoneUI.Alignment.SPREAD || !_faceUp) { return; }
+            if (zone.alignment == CardZoneUI.Alignment.STACK || !_faceUp) { return; }
             RectTransform rect = GetComponent<RectTransform>();
             float x = transform.position.x / Screen.width;
             float y = transform.position.y / Screen.height;
@@ -309,7 +321,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         else
         {
             //_nameText.transform.localPosition = new Vector2(0, -60);
-            transform.SetSiblingIndex(zoneIndex);
+            
             translation = basePosition;
         }
         //_abilityText.gameObject.SetActive(flag);
@@ -327,6 +339,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
         if (flag)
         {
+            transform.SetAsLastSibling();
             targetScale = targetScale * factor;
         }
         float t = 0;
@@ -335,6 +348,10 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             t += Time.deltaTime / duration;
             transform.localScale = Vector3.Lerp(startScale, targetScale, t);
             yield return null;
+        }
+        if (!flag)
+        {
+            transform.SetSiblingIndex(zoneIndex);
         }
         transform.localScale = targetScale;
     }
@@ -354,8 +371,9 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         if (zone == null) { return; }
         _trackingMouse = false;
+        transform.SetSiblingIndex(zoneIndex);
         RectTransform rect = zone.GetComponent<RectTransform>();
-        Vector2 dest = rect.TransformPoint(zone.Position(zoneIndex), 0, 0);
+        Vector2 dest = rect.TransformPoint(zone.Position(zoneIndex));
         Translate(dest);
     }
     public void OverrideSorting(bool a_flag)

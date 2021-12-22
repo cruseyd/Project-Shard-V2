@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardAnimationRate: 0.2
   _cardHeight: 200
+  _cardWidth: 150
   _cardStatPairs:
     list:
     - Key: 1

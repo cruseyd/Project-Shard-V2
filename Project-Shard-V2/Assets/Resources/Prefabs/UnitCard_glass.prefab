@@ -5143,6 +5143,7 @@ GameObject:
   - component: {fileID: 3073495694137174387}
   - component: {fileID: 732200176504987864}
   - component: {fileID: 3993113974820202968}
+  - component: {fileID: 3605278899592469438}
   m_Layer: 0
   m_Name: UnitCard_glass
   m_TagString: Untagged
@@ -5219,6 +5220,7 @@ MonoBehaviour:
   - {fileID: 991516344950306637}
   - {fileID: 7326421371207923002}
   _particles: {fileID: 3993113974820202968}
+  _faceUp: 0
   zoneIndex: 0
 --- !u!114 &1725738118835262470
 MonoBehaviour:
@@ -5340,6 +5342,26 @@ MonoBehaviour:
   face_colors:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &3605278899592469438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082762082020173480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 150
+  m_PreferredHeight: 200
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1093708820407732783
 GameObject:
   m_ObjectHideFlags: 0

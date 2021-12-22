@@ -80,9 +80,9 @@ public class IdlePhase : GamePhase
 
     public override GamePhase ProcessInput(CardGame a_game, CardGameInput a_input)
     {
-        if (a_input.target is Card)
+        if (a_input.target is CardUI)
         {
-            Card card = a_input.target as Card;
+            Card card = a_input.target.data as Card;
             switch (a_input.type)
             {
                 case CardGameInput.Type.DOUBLE_CLICK:
@@ -155,9 +155,9 @@ public class IdlePhase : GamePhase
                 default: return null;
             }
         }
-        else if (a_input.target is Actor)
+        else if (a_input.target is ActorUI)
         {
-            Actor actor = a_input.target as Actor;
+            Actor actor = a_input.target.data as Actor;
             switch (a_input.type)
             {
                 default: return null;
@@ -283,9 +283,9 @@ public class TargetingPhase : GamePhase
 
     public override GamePhase ProcessInput(CardGame a_game, CardGameInput a_input)
     {
-        if (a_input.target is Card)
+        if (a_input.target is CardUI)
         {
-            Card card = a_input.target as Card;
+            Card card = a_input.target.data as Card;
             switch (a_input.type)
             {
                 case CardGameInput.Type.DOUBLE_CLICK:
@@ -335,9 +335,9 @@ public class TargetingPhase : GamePhase
                     return idle;
                 default: return null;
             }
-        } else if (a_input.target is Actor)
+        } else if (a_input.target is ActorUI)
         {
-            Actor actor = a_input.target as Actor;
+            Actor actor = a_input.target.data as Actor;
             switch (a_input.type)
             {
                 case CardGameInput.Type.DOUBLE_CLICK:
@@ -511,9 +511,9 @@ public class EndTurnPhase : GamePhase
 
     public override GamePhase ProcessInput(CardGame a_game, CardGameInput a_input)
     {
-        if (a_input.target is Card)
+        if (a_input.target is CardUI)
         {
-            Card card = a_input.target as Card;
+            Card card = a_input.target.data as Card;
             switch (a_input.type)
             {
                 case CardGameInput.Type.DOUBLE_CLICK:
@@ -533,9 +533,9 @@ public class EndTurnPhase : GamePhase
                 default: return null;
             }
         }
-        else if (a_input.target is Actor)
+        else if (a_input.target is ActorUI)
         {
-            Actor actor = a_input.target as Actor;
+            Actor actor = a_input.target.data as Actor;
             switch (a_input.type)
             {
                 default: return null;
