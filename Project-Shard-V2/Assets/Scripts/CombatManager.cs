@@ -55,6 +55,7 @@ public class CombatManager : MonoBehaviour
             _instance = this;
             _game = new CardGame();
             _buttonsEnabled = true;
+            GameManager.SetMainCanvas(GetComponent<Canvas>());
            // _lastLeftClick = 0.0f;
         } else
         {

@@ -6,7 +6,6 @@ public class CardGameParams : MonoBehaviour
 {
     private static CardGameParams _instance;
 
-
     [SerializeField] private float _cardAnimationRate;
     [SerializeField] private float _cardHeight;
     [SerializeField] private float _cardWidth;

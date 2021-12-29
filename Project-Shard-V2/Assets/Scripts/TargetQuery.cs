@@ -35,9 +35,13 @@ public class TargetQuery
     public bool Compare(ITarget a_target)
     {
         // Misc checks
+        if (_source != null)
+        {
+            if (isEnemy && (a_target.owner == _source.owner)) { return false; }
+            if (isAlly && (a_target.owner != _source.owner)) { return false; }
+        }
         if (exclude.Contains(a_target)) { return false; }
-        if (isEnemy && (a_target.owner == _source.owner)) { return false; }
-        if (isAlly  && (a_target.owner != _source.owner)) { return false; }
+        
         if (isDamageable && !(a_target is IDamageable)) { return false; }
 
         if (a_target is Card)
@@ -69,9 +73,11 @@ public class TargetQuery
             if (zones.Count > 0) { return false; }
 
             // Actor checks
-            if (isOwner && (actor != _source.owner)) { return false; }
-            if (isOpponent && (!_source.opponents.Contains(actor))) { return false; }
-
+            if (_source != null)
+            {
+                if (isOwner && (actor != _source.owner)) { return false; }
+                if (isOpponent && (!_source.opponents.Contains(actor))) { return false; }
+            }
             return true;
         } else
         {

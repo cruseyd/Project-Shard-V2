@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Decklist> _decks;
     [SerializeField] private Canvas _mainCanvas;
     [SerializeField] private Canvas _overrideCanvas;
+
+    public static Canvas overrideCanvas { get { return _instance._overrideCanvas; } }
     public static CardIndex cardIndex
     {
         get
@@ -80,7 +82,10 @@ public class GameManager : MonoBehaviour
     {
         return _instance._decks[a_playerNum];
     }
-
+    public static void SetMainCanvas(Canvas a_canvas)
+    {
+        _instance._mainCanvas = a_canvas;
+    }
     public static void ProcessInput(CardGameInput a_input)
     {
         if (CombatManager.ProcessInput(a_input)) { return; }
@@ -97,10 +102,11 @@ public class GameManager : MonoBehaviour
                     //card.Zoom(false);
                     break;
                 case CardGameInput.Type.BEGIN_DRAG:
-                case CardGameInput.Type.CONTINUE_DRAG:
-                    card.trackingMouse = true;
-                    _instance._draggedItemPrevTransform = card.transform;
+                    _instance._draggedItemPrevTransform = card.transform.parent;
                     card.transform.SetParent(_instance._overrideCanvas.transform);
+                    card.trackingMouse = true;
+                    break;
+                case CardGameInput.Type.CONTINUE_DRAG:
                     break;
                 case CardGameInput.Type.END_DRAG:
                     card.transform.SetParent(_instance._draggedItemPrevTransform);

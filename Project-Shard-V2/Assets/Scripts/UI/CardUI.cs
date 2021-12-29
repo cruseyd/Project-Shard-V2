@@ -30,6 +30,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private bool _faceUp = false;
     private ITargetUI.State _state;
     private CardData _data;
+    public CardData data { get { return _data; } }
     public bool trackingMouse
     {
         get { return _trackingMouse; }
@@ -43,7 +44,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
     }
     public bool faceUp { get { return _faceUp; } }
-    public ITarget data { get { return card; } }
+    public ITarget targetData { get { return card; } }
     public Card card { get; private set; }
     public ITargetUI.State state
     {
@@ -95,6 +96,12 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         ui.transform.SetParent(a_zone.transform);
         ui.Initialize(a_data);
         return ui;
+    }
+
+    public void Awake()
+    {
+        //state = ITargetUI.State.DEFAULT;
+        ClearMarks();
     }
     public void Initialize(Card a_card)
     {

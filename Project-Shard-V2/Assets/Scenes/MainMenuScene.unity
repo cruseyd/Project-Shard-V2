@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -390,6 +390,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216343960}
   m_CullTransparentMesh: 1
+--- !u!223 &710477606 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7530736335945222662, guid: 934f905c7a38a3641a6d34ba3606f76a, type: 3}
+  m_PrefabInstance: {fileID: 7426689620990765342}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &876345461
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,6 +937,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7426689621994263754, guid: 934f905c7a38a3641a6d34ba3606f76a, type: 3}
+      propertyPath: _mainCanvas
+      value: 
+      objectReference: {fileID: 876345464}
+    - target: {fileID: 7426689621994263754, guid: 934f905c7a38a3641a6d34ba3606f76a, type: 3}
+      propertyPath: _overrideCanvas
+      value: 
+      objectReference: {fileID: 710477606}
     - target: {fileID: 7426689621994263755, guid: 934f905c7a38a3641a6d34ba3606f76a, type: 3}
       propertyPath: m_RootOrder
       value: 5

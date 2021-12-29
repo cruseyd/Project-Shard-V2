@@ -9,7 +9,9 @@ public class DropZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         DEFAULT,
         PLAY,
-        TRIBUTE
+        TRIBUTE,
+        DECKLIST,
+        CARD_POOL
     }
 
     [SerializeField] private ID _id;

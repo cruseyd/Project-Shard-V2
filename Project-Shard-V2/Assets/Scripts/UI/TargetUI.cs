@@ -15,7 +15,7 @@ public interface ITargetUI
     }
 
     public State state { get; set; }
-    public ITarget data { get; }
+    public ITarget targetData { get; }
     public GameObject gameObject { get; }
 
     public void Refresh();

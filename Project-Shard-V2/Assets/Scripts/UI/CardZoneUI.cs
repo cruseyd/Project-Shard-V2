@@ -38,10 +38,6 @@ public class CardZoneUI : MonoBehaviour
     void Awake()
     {
         _rect = GetComponent<RectTransform>();
-    }
-
-    void Start()
-    {
         _scale = _rect.rect.height / CardGameParams.cardHeight;
         if (alignment == Alignment.GRID)
         {
@@ -68,6 +64,11 @@ public class CardZoneUI : MonoBehaviour
         _initialized = true;
     }
 
+    void Start()
+    {
+       
+    }
+
     public Vector2 Position(int a_zoneIndex)
     {
         if (alignment == Alignment.SPREAD)
@@ -86,6 +87,7 @@ public class CardZoneUI : MonoBehaviour
             Vector2 position = new Vector2(paddingLeft, -paddingTop);
             position += new Vector2(rowIndex * (spacing[0] + CardGameParams.cardWidth) + CardGameParams.cardWidth/2,
                                    -colIndex * (spacing[1] + CardGameParams.cardHeight) - CardGameParams.cardHeight/2);
+            Debug.Log("Grid Position: " + position + " | rowIndex: " + rowIndex);
             return position;
         } else 
         {

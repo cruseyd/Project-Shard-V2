@@ -20,7 +20,7 @@ public class ActorUI : MonoBehaviour, ITargetUI, IDoubleClickable
     public GenericDictionary<Actor.StatName, ValueDisplay> _statDisplays;
     public GenericDictionary<Actor.StatName, ValueDisplay> _maxStatDisplays;
 
-    public ITarget data { get { return actor; } }
+    public ITarget targetData { get { return actor; } }
     public Actor actor { get; private set; }
     public CardZoneUI hand { get { return zones[CardZone.Type.HAND]; } }
     public CardZoneUI deck { get { return zones[CardZone.Type.DECK]; } }

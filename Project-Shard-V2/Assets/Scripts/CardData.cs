@@ -178,12 +178,19 @@ public class CardData : IComparable
                 return 0;
         }
     }
+    
     public int CompareTo(object obj)
     {
         if (obj is CardData)
         {
             CardData data = obj as CardData;
-            return id.CompareTo(data.id);
+            // sorting: level -> alphabetical
+            int comparison = level.CompareTo(data.level);
+            if (comparison == 0)
+            {
+                comparison = name.CompareTo(data.name);
+            }
+            return comparison;
         } else if (obj is string)
         {
             return id.CompareTo(obj);
@@ -193,6 +200,7 @@ public class CardData : IComparable
         }
         return -1;
     }
+    
     public Card.Color Threshold(int a_index)
     {
         switch (a_index)
@@ -218,4 +226,5 @@ public class CardData : IComparable
             default: return Card.Color.DEFAULT;
         }
     }
+
 }

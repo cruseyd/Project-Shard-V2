@@ -36,7 +36,7 @@ public class CardGameInput
             foreach (RaycastResult hit in hits)
             {
                 ITargetUI target = hit.gameObject.GetComponent<ITargetUI>();
-                if (target != null) { hoveredTargets.Add(target.data); }
+                if (target != null) { hoveredTargets.Add(target.targetData); }
                 DropZone zone = hit.gameObject.GetComponent<DropZone>();
                 if (zone != null) { dropZones.Add(zone); }
             }
