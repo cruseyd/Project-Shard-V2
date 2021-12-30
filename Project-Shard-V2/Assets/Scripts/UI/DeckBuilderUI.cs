@@ -103,15 +103,14 @@ public class DeckBuilderUI : MonoBehaviour
                     card.trackingMouse = true;
                     return true;
                 case CardGameInput.Type.CONTINUE_DRAG:
-                    break;
+                    return true;
                 case CardGameInput.Type.END_DRAG:
                     card.transform.SetParent(_cardPool.transform);
                     card.transform.position = _cardPool.Position(card.zoneIndex);
                     card.trackingMouse = false;
-                    break;
-
-                default: break;
+                    return true;
             }
-            return false;
+        }
+        return false;
     }
 }
