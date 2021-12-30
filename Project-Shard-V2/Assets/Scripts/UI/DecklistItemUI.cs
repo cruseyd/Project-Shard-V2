@@ -13,6 +13,8 @@ public class DecklistItemUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _level;
     [SerializeField] private Image _background; //will be a sprite
 
+    public CardData data { get { return _data; } }
+    public int quantity { get { return _quantity; } }
     public void Initialize(CardData a_data)
     {
         _data = a_data;
@@ -23,11 +25,11 @@ public class DecklistItemUI : MonoBehaviour
 
         _background.color = CardGameParams.GetColor(a_data.color);
     }
-
     public void Increment(int a_delta)
     {
         _quantity += a_delta;
         _quantity = Mathf.Clamp(_quantity, 0, 9999);
         _quantityText.text = _quantity.ToString();
     }
+
 }

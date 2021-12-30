@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
     public static void ProcessInput(CardGameInput a_input)
     {
         if (CombatManager.ProcessInput(a_input)) { return; }
+        if (DeckBuilderManager.ProcessInput(a_input)) { return;  }
         // other scene managers here
         if (a_input.target is CardUI)
         {

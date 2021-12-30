@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeckBuilderUI : MonoBehaviour
+public class DeckBuilderManager : MonoBehaviour
 {
+    private static DeckBuilderManager _instance;
+
+    private GameObject _decklistItemUIPrefab;
+
     [SerializeField] private CardZoneUI _cardPool;
     [SerializeField] private FilterOptionUI _colorFilter;
     [SerializeField] private FilterOptionUI _keywordFilter;
     [SerializeField] private FilterOptionUI _levelFilter;
+    [SerializeField] private Transform _decklistPanel;
 
     private List<CardUI> _cards;
+    private List<DecklistItemUI> _decklistItems;
     private void Awake()
     {
-        GameManager.SetMainCanvas(GetComponent<Canvas>());
+        if (_instance == null)
+        {
+            _instance = this;
+        } else
+        {
+            Destroy(this.gameObject);
+        }
+
+        if (_decklistItemUIPrefab == null)
+        {
+            _decklistItemUIPrefab = Resources.Load("Prefabs/DecklistItemUI") as GameObject;
+        }
+        
 
         _colorFilter.toggle.onValueChanged.AddListener(FilterCards);
         _colorFilter.dropdown.onValueChanged.AddListener(FilterCards);
@@ -22,18 +40,22 @@ public class DeckBuilderUI : MonoBehaviour
 
         _levelFilter.toggle.onValueChanged.AddListener(FilterCards);
         _levelFilter.dropdown.onValueChanged.AddListener(FilterCards);
+
+        _cards = new List<CardUI>();
+        _decklistItems = new List<DecklistItemUI>();
     }
 
     private void Start()
     {
         List<CardData> cards = GameManager.cardIndex.cards;
-        _cards = new List<CardUI>();
+        GameManager.SetMainCanvas(GetComponent<Canvas>());
         foreach (CardData data in cards)
         {
             CardUI card = CardUI.Spawn(data, _cardPool);
             card.FaceUp(true);
             _cards.Add(card);
         }
+        _cardPool.Organize();
     }
     private void Update()
     {
@@ -84,8 +106,42 @@ public class DeckBuilderUI : MonoBehaviour
         }
         _cardPool.Organize();
     }
-
-    bool ProcessInput(CardGameInput a_input)
+    public void SortDecklist()
+    {
+        _decklistItems.Sort((a, b) => a.data.CompareTo(b.data));
+        for (int ii = 0; ii < _decklistItems.Count; ii++)
+        {
+            _decklistItems[ii].transform.SetSiblingIndex(ii);
+        }
+    }
+    private int NumCardInDeck(CardData a_data)
+    {
+        foreach (DecklistItemUI item in _decklistItems)
+        {
+            if (item.data.id == a_data.id)
+            {
+                return item.quantity;
+            }
+        }
+        return 0;
+    }
+    private void AddDecklistItem(CardData a_data)
+    {
+        foreach (DecklistItemUI item in _decklistItems)
+        {
+            if (item.data.id == a_data.id)
+            {
+                item.Increment(1);
+                return;
+            }
+        }
+        GameObject itemUI_go = Instantiate(_decklistItemUIPrefab, _decklistPanel) as GameObject;
+        DecklistItemUI itemUI = itemUI_go.GetComponent<DecklistItemUI>();
+        _decklistItems.Add(itemUI);
+        itemUI.Initialize(a_data);
+        SortDecklist();
+    }
+    public static bool ProcessInput(CardGameInput a_input)
     {
         if (a_input.target is CardUI)
         {
@@ -105,9 +161,13 @@ public class DeckBuilderUI : MonoBehaviour
                 case CardGameInput.Type.CONTINUE_DRAG:
                     return true;
                 case CardGameInput.Type.END_DRAG:
-                    card.transform.SetParent(_cardPool.transform);
-                    card.transform.position = _cardPool.Position(card.zoneIndex);
+                    card.transform.SetParent(_instance._cardPool.transform);
+                    card.transform.position = (Vector2)_instance._cardPool.transform.position + _instance._cardPool.Position(card.zoneIndex);
                     card.trackingMouse = false;
+                    if (a_input.Hovering(DropZone.ID.DECKLIST))
+                    {
+                        _instance.AddDecklistItem(card.data);
+                    }
                     return true;
             }
         }

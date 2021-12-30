@@ -83,7 +83,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         if (trackingMouse)
         {
-            Track(Input.mousePosition, 0.1f);
+            Track(Input.mousePosition, 0.2f);
         }
     }
     public static CardUI Spawn(CardData a_data, CardZoneUI a_zone)
