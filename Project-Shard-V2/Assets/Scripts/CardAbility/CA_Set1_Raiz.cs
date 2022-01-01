@@ -90,7 +90,7 @@ public class CA_Flurry : CardAbility
 
     public void PlayCardHandler(Actor a_actor, Card a_card)
     {
-        if (a_card.HasKeyword(Keyword.TECHNIQUE) && _source.playedThisTurn && _source.zone.type == CardZone.Type.DISCARD)
+        if (a_card.HasKeyword(Keyword.T_TECHNIQUE) && _source.playedThisTurn && _source.zone.type == CardZone.Type.DISCARD)
         {
             AddToHand(_source);
         }
@@ -130,7 +130,7 @@ public class CA_Blitz : CardAbility
         List<Card> handCards = _source.owner.hand.cards;
         foreach (Card card in handCards)
         {
-            if (card.HasKeyword(Keyword.TECHNIQUE))
+            if (card.HasKeyword(Keyword.T_TECHNIQUE))
             {
                 focusGain++;
             }

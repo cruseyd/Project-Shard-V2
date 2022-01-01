@@ -71,9 +71,9 @@ public class CardData : IComparable
         get
         {
             List<Keyword> keys = new List<Keyword>();
-            if (k1 != null) { keys.Add((Keyword)Enum.Parse(typeof(Keyword), k1.ToUpper())); }
-            if (k2 != null) { keys.Add((Keyword)Enum.Parse(typeof(Keyword), k2.ToUpper())); }
-            if (k3 != null) { keys.Add((Keyword)Enum.Parse(typeof(Keyword), k3.ToUpper())); }
+            if (k1 != null) { keys.Add(GameManager.ParseTextAsKeyword(k1)); }
+            if (k2 != null) { keys.Add(GameManager.ParseTextAsKeyword(k2)); }
+            if (k3 != null) { keys.Add(GameManager.ParseTextAsKeyword(k3)); }
             return keys;
         }
     }
@@ -178,7 +178,6 @@ public class CardData : IComparable
                 return 0;
         }
     }
-    
     public int CompareTo(object obj)
     {
         if (obj is CardData)
@@ -200,7 +199,6 @@ public class CardData : IComparable
         }
         return -1;
     }
-    
     public Card.Color Threshold(int a_index)
     {
         switch (a_index)
@@ -226,5 +224,21 @@ public class CardData : IComparable
             default: return Card.Color.DEFAULT;
         }
     }
+    public bool ContainsText(string a_text)
+    {
+        a_text = a_text.ToLower();
+        foreach (Keyword s in keywords)
+        {
+            if (s.ToString().ToLower().Contains(a_text)) { return true; }
+        }
+        foreach (AbilityKeyword s in abilityKeywords)
+        {
+            if (s.ToString().ToLower().Contains(a_text)) { return true; }
+        }
+        if (name.ToLower().Contains(a_text)) { return true; }
+        if (text.ToLower().Contains(a_text)) { return true; }
+        return false;
+    }
+
 
 }

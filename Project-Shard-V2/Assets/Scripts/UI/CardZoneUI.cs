@@ -58,8 +58,6 @@ public class CardZoneUI : MonoBehaviour
                 float widthDelta = zoneWidth - widthUsed;
                 spacing[0] += (widthDelta / (_numCardsInRow - 1));
             }
-            Debug.Log("Rect width: " + zoneWidth);
-            Debug.Log("Row width:" + _numCardsInRow);
         }
         _initialized = true;
     }
@@ -74,7 +72,6 @@ public class CardZoneUI : MonoBehaviour
         if (alignment == Alignment.SPREAD)
         {
             int numCards = transform.GetComponentsInChildren<CardUI>().Length;
-            //int numCards = transform.childCount;
             float width = _rect.rect.width;
             float spacing = width / (1.0f * numCards);
             float xpos = -width / 2.0f + spacing / 2.0f;
@@ -87,7 +84,6 @@ public class CardZoneUI : MonoBehaviour
             Vector2 position = new Vector2(paddingLeft, -paddingTop);
             position += new Vector2(rowIndex * (spacing[0] + CardGameParams.cardWidth) + CardGameParams.cardWidth/2,
                                    -colIndex * (spacing[1] + CardGameParams.cardHeight) - CardGameParams.cardHeight/2);
-            Debug.Log("Grid Position: " + position + " | rowIndex: " + rowIndex);
             return position;
         } else 
         {
@@ -107,7 +103,6 @@ public class CardZoneUI : MonoBehaviour
             int numRows = cards.Length / _numCardsInRow;
             if (cards.Length % _numCardsInRow != 0) { numRows++; }
             float height = paddingTop + paddingBottom + numRows * CardGameParams.cardHeight + (numRows - 1) * spacing[1];
-            Debug.Log("setting rect.height: " + height);
             _rect.sizeDelta = new Vector2(_rect.rect.width, height);
             _rect.rect.Set(_rect.rect.x, _rect.rect.y, _rect.rect.width, height);
         }

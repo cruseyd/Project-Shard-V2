@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             _cardIndex = new CardIndex();
+            Decklist.LoadDecks();
             DontDestroyOnLoad(this);
         } else
         {
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
                     if (target != null)
                     {
                         CardGameInput input = new CardGameInput(CardGameInput.Type.DOUBLE_CLICK, target.gameObject.transform, eventData);
-                        CombatManager.ProcessInput(input);
+                        ProcessInput(input);
                     }
                 }
                 _lastLeftClick = 0.0f;
@@ -81,6 +83,10 @@ public class GameManager : MonoBehaviour
     public static Decklist GetDecklist(int a_playerNum)
     {
         return _instance._decks[a_playerNum];
+    }
+    public static void SetDecklist(int a_playerNum, Decklist a_list)
+    {
+        _instance._decks[a_playerNum] = a_list;
     }
     public static void SetMainCanvas(Canvas a_canvas)
     {
@@ -119,5 +125,29 @@ public class GameManager : MonoBehaviour
             }
         }
         
+    }
+
+    public static Keyword ParseTextAsKeyword(string a_string)
+    {
+        string baseString = a_string.ToUpper();
+        string[] keyStrings = {
+            "T_" + baseString,
+            "E_" + baseString,
+            "C_" + baseString,
+            "R_" + baseString,
+            "S_" + baseString
+        };
+        foreach (string s in keyStrings)
+        {
+            if (Enum.IsDefined(typeof(Keyword), s))
+            { return (Keyword)Enum.Parse(typeof(Keyword), s); }
+        }
+        Debug.LogWarning("Could not parse text as Keyword: " + a_string);
+        return (Keyword)(-1);
+    }
+
+    public static string ParseKeywordAsText(Keyword a_key)
+    {
+        return a_key.ToString().Split('_')[1];
     }
 }

@@ -2,44 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum Keyword
 {
-    DEFAULT,
-    
-    SPELL = 1,
-    TECHNIQUE,
-
-    FIRE = 100,
-    ICE,
-    WATER,
-    LIGHTNING,
-    EARTH,
-    WIND,
-    LIGHT,
-    DARK,
-    ARCANE,
-    MYSTIC,
-    ELDER,
-    SLASHING,
-    PIERCING,
-    CRUSHING,
-    
-    WARRIOR = 200,
-    MAGE,
-    CLERIC,
-    ROGUE,
-    RANGER,
-
-    HUMAN = 1000,
-    HYROC,
-    DRYAD,
-
-
-    WOLF = 2000,
-    DRAGON,
-    SLIME,
-    PLANT
-
+    T_SPELL,
+    T_TECHNIQUE,
+    E_FIRE,
+    E_ICE,
+    E_WATER,
+    E_LIGHTNING,
+    E_EARTH,
+    E_WIND,
+    E_LIGHT,
+    E_DARK,
+    E_ARCANE,
+    E_MYSTIC,
+    E_ELDER,
+    E_SLASHING,
+    E_PIERCING,
+    E_CRUSHING,
+    C_WARRIOR,
+    C_MAGE,
+    C_CLERIC,
+    C_ROGUE,
+    C_RANGER,
+    R_HUMAN,
+    R_HYROC,
+    R_DRYAD,
+    S_WOLF,
+    S_DRAGON,
+    S_SLIME,
+    S_PLANT,
+    S_TARANZID
 }
 
 public enum AbilityKeyword

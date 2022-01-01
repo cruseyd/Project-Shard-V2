@@ -39,7 +39,7 @@ public class FilterOptionUI : MonoBehaviour
     {
         
     }
-
+    
     void PopulateDropdown(TMP_Dropdown a_dropdown, DropdownType a_type)
     {
         a_dropdown.ClearOptions();
@@ -58,7 +58,20 @@ public class FilterOptionUI : MonoBehaviour
             {
                 newOptions.Add(new TMP_Dropdown.OptionData(ii.ToString()));
             }
-        } else
+        } else if (enumType == typeof(Keyword))
+        {
+            for (int ii = 0; ii < Enum.GetNames(enumType).Length; ii++)
+            {
+                string baseKeyName = Enum.GetName(enumType, ii);
+                string keyName = baseKeyName.Split('_')[1];
+                keyName = char.ToUpper(keyName[0]) + keyName.Substring(1).ToLower();
+                newOptions.Add(new TMP_Dropdown.OptionData(keyName));
+            }
+            for (int ii = rangeLow; ii <= rangeHigh; ii++)
+            {
+                newOptions.Add(new TMP_Dropdown.OptionData(ii.ToString()));
+            }
+        } else 
         {
             for (int ii = 0; ii < Enum.GetNames(enumType).Length; ii++)
             {

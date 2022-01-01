@@ -25,7 +25,7 @@ public class SE_Sharpen : StatusEffect
 
     private void ModifyDamage(Actor a_actor, DamageData a_data)
     {
-        if (a_data.source is Card && ((Card)a_data.source).HasKeyword(Keyword.SLASHING))
+        if (a_data.source is Card && ((Card)a_data.source).HasKeyword(Keyword.E_SLASHING))
         {
             a_data.damage += stacks;
         }

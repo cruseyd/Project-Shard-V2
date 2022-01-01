@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DeckBuilderManager : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class DeckBuilderManager : MonoBehaviour
     private GameObject _decklistItemUIPrefab;
 
     [SerializeField] private CardZoneUI _cardPool;
+    [SerializeField] private TMP_InputField _saveDeckInput;
+    [SerializeField] private SearchFilterUI _searchFilter;
     [SerializeField] private FilterOptionUI _colorFilter;
     [SerializeField] private FilterOptionUI _keywordFilter;
     [SerializeField] private FilterOptionUI _levelFilter;
@@ -30,7 +34,10 @@ public class DeckBuilderManager : MonoBehaviour
         {
             _decklistItemUIPrefab = Resources.Load("Prefabs/DecklistItemUI") as GameObject;
         }
-        
+
+
+        _searchFilter.toggle.onValueChanged.AddListener(FilterCards);
+        _searchFilter.input.onValueChanged.AddListener(FilterCards);
 
         _colorFilter.toggle.onValueChanged.AddListener(FilterCards);
         _colorFilter.dropdown.onValueChanged.AddListener(FilterCards);
@@ -60,6 +67,10 @@ public class DeckBuilderManager : MonoBehaviour
     private void Update()
     {
     }
+    public void FilterCards(string dummy)
+    {
+        FilterCards(true);
+    }
     public void FilterCards(int dummy)
     {
         FilterCards(true);
@@ -79,7 +90,9 @@ public class DeckBuilderManager : MonoBehaviour
             }
             if (_keywordFilter.toggle.isOn)
             {
-                if (card.data.keywords.Contains((Keyword)_keywordFilter.dropdown.value))
+                Keyword key = (Keyword)_keywordFilter.dropdown.value;
+                Debug.Log("Checking for keyword: " + key);
+                if (!card.data.keywords.Contains((Keyword)_keywordFilter.dropdown.value))
                 {
                     card.gameObject.SetActive(false);
                     continue;
@@ -88,6 +101,14 @@ public class DeckBuilderManager : MonoBehaviour
             if (_levelFilter.toggle.isOn)
             {
                 if (card.data.level != (int)_levelFilter.dropdown.value)
+                {
+                    card.gameObject.SetActive(false);
+                    continue;
+                }
+            }
+            if (_searchFilter.toggle.isOn)
+            {
+                if (!card.data.ContainsText(_searchFilter.input.text))
                 {
                     card.gameObject.SetActive(false);
                     continue;
@@ -141,6 +162,22 @@ public class DeckBuilderManager : MonoBehaviour
         itemUI.Initialize(a_data);
         SortDecklist();
     }
+    private void RemoveDecklistItem(CardData a_data)
+    {
+        foreach (DecklistItemUI item in _decklistItems)
+        {
+            if (item.data.id == a_data.id)
+            {
+                item.Increment(-1);
+                if (item.quantity <= 0)
+                {
+                    _decklistItems.Remove(item);
+                    Destroy(item.gameObject);
+                }
+                return;
+            }
+        }
+    }
     public static bool ProcessInput(CardGameInput a_input)
     {
         if (a_input.target is CardUI)
@@ -169,8 +206,35 @@ public class DeckBuilderManager : MonoBehaviour
                         _instance.AddDecklistItem(card.data);
                     }
                     return true;
+                case CardGameInput.Type.DOUBLE_CLICK:
+                    _instance.AddDecklistItem(card.data);
+                    return true;
+            }
+        } else if (a_input.target is DecklistItemUI)
+        {
+            DecklistItemUI item = a_input.target as DecklistItemUI;
+            switch (a_input.type)
+            {
+                case CardGameInput.Type.DOUBLE_CLICK:
+                    _instance.RemoveDecklistItem(item.data);
+                    return true;
             }
         }
         return false;
+    }
+
+    public void SaveDeck()
+    {
+        if (string.IsNullOrEmpty(_saveDeckInput.text))
+        {
+            return;
+        }
+        Decklist decklist = new Decklist();
+        decklist.name = _saveDeckInput.text;
+        foreach (DecklistItemUI item in _decklistItems)
+        {
+            decklist.list.Add(new DecklistItem(item.data.id, item.quantity));
+        }
+        Decklist.SaveDeck(decklist);
     }
 }

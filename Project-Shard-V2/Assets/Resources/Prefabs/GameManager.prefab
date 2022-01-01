@@ -143,6 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a990ff81c35f143acdf95071f148ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _decks: []
+  _decks:
+  - name: 
+    list: []
+  - name: 
+    list: []
   _mainCanvas: {fileID: 0}
   _overrideCanvas: {fileID: 7530736335945222662}

@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "name": "Test Deck",
+      "list": [
+        {
+          "id": "Slash",
+          "qty": 9
+        }
+      ]
+    },
+    {
+      "name": "Slashing",
+      "list": [
+        {
+          "id": "Flurry",
+          "qty": 3
+        },
+        {
+          "id": "Sharpen",
+          "qty": 3
+        },
+        {
+          "id": "Slash",
+          "qty": 3
+        },
+        {
+          "id": "Blitz",
+          "qty": 3
+        }
+      ]
+    }
+  ]
+}

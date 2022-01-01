@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class DecklistItemUI : MonoBehaviour
+public class DecklistItemUI : MonoBehaviour, IDoubleClickable, ITargetUI
 {
     private int _quantity;
     private CardData _data;
@@ -15,6 +16,21 @@ public class DecklistItemUI : MonoBehaviour
 
     public CardData data { get { return _data; } }
     public int quantity { get { return _quantity; } }
+
+    public ITargetUI.State state
+    {
+        get
+        {
+            return ITargetUI.State.DEFAULT;
+        }
+        set
+        {
+
+        }
+    }
+
+    public ITarget targetData { get { return null; } }
+
     public void Initialize(CardData a_data)
     {
         _data = a_data;
@@ -32,4 +48,12 @@ public class DecklistItemUI : MonoBehaviour
         _quantityText.text = _quantity.ToString();
     }
 
+    public void DoubleClick(PointerEventData eventData)
+    {
+        Debug.Log("DecklistItemUI::DoubleClick");
+    }
+
+    public void Refresh()
+    {
+    }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class PauseMenu : MonoBehaviour
@@ -10,6 +11,10 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] private GameObject _menu;
     [SerializeField] private Scene _active;
+
+    [SerializeField] private TMP_Dropdown _playerDeck;
+    [SerializeField] private TMP_Dropdown _enemyDeck;
+
     private bool _open;
 
     private void Update()
@@ -33,17 +38,14 @@ public class PauseMenu : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
     public void LoadScene(string a_sceneName)
     {
-        if (_active.name == a_sceneName)
+        if (_active.name != a_sceneName)
         {
-            Close();
-        }
-        else
-        {
+            SetDecks();
             SceneManager.LoadScene(a_sceneName);
         }
+        Close();
     }
     public void MainMenuButton()
     {
@@ -67,9 +69,27 @@ public class PauseMenu : MonoBehaviour
         _menu.SetActive(false);
     }
 
+    public void SetDecks()
+    {
+        string playerDeckName = _playerDeck.options[_playerDeck.value].text;
+        string enemyDeckName = _enemyDeck.options[_enemyDeck.value].text;
+        GameManager.SetDecklist(0, Decklist.Get(playerDeckName));
+        GameManager.SetDecklist(1, Decklist.Get(enemyDeckName));
+    }
     public void Open()
     {
         _open = true;
+        
+        List<TMP_Dropdown.OptionData> deckOptions = new List<TMP_Dropdown.OptionData>();
+        foreach (Decklist list in Decklist.decks)
+        {
+            deckOptions.Add(new TMP_Dropdown.OptionData(list.name));
+        }
+        _playerDeck.ClearOptions();
+        _playerDeck.AddOptions(deckOptions);
+        _enemyDeck.ClearOptions();
+        _enemyDeck.AddOptions(deckOptions);
+        
         _menu.SetActive(true);
     }
 }
