@@ -66,6 +66,16 @@ public abstract class Ability
         RemoveStatusEffect effect = new RemoveStatusEffect(a_status, a_target, a_stacks);
         effect.Execute(_game);
     }
+    protected void ChangeAOEStatModifier(AOECardStatModifier a_mod, int a_value)
+    {
+        ChangeAOECardStatModifierEffect effect = new ChangeAOECardStatModifierEffect(a_mod, a_value);
+        effect.Execute(_game);
+    }
+    protected void ChangeStatModifier(CardStatModifier a_mod, int a_value)
+    {
+        ChangeCardStatModifierEffect effect = new ChangeCardStatModifierEffect(a_mod, a_value);
+        effect.Execute(_game);
+    }
     protected void AddToHand(Card a_card)
     {
         EntersZoneEffect effect = new EntersZoneEffect(a_card, a_card.owner.hand, true);

@@ -73,7 +73,8 @@ public class UnitCard : Card, IDamageable
     // IDamageable
     public void TakeDamage(DamageData a_damageData)
     {
-        a_damageData.source.owner.events.BeforeDealDamage(a_damageData);
+        //a_damageData.source.owner.events.BeforeDealDamage(a_damageData);
+        damageEvents.BeforeTakeDamage(a_damageData);
         if (a_damageData.damage < 0)
         {
             // prevent overhealing

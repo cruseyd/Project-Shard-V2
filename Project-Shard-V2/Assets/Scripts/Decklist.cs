@@ -86,5 +86,15 @@ public class Decklist
         }
         return null;
     }
+
+    public static List<string> GetDeckNames()
+    {
+        List<string> decknames = new List<string>();
+        foreach (Decklist list in decks)
+        {
+            decknames.Add(list.name);
+        }
+        return decknames;
+    }
 }
 

@@ -87,6 +87,21 @@ MonoBehaviour:
     - Key: 6
       Value: {fileID: 21300000, guid: 31700b814f447bf44aa5410473f90dba, type: 3}
     keyCollision: 0
+  _decklistItemSprites:
+    list:
+    - Key: 1
+      Value: {fileID: 6618826265252200253, guid: bf41441b3d5ad1349b5eb519bfab510c, type: 3}
+    - Key: 2
+      Value: {fileID: 3045898228023715654, guid: bf41441b3d5ad1349b5eb519bfab510c, type: 3}
+    - Key: 3
+      Value: {fileID: 6284278307934717446, guid: bf41441b3d5ad1349b5eb519bfab510c, type: 3}
+    - Key: 4
+      Value: {fileID: 4820249178751800657, guid: bf41441b3d5ad1349b5eb519bfab510c, type: 3}
+    - Key: 5
+      Value: {fileID: -8988132022309194886, guid: bf41441b3d5ad1349b5eb519bfab510c, type: 3}
+    - Key: 6
+      Value: {fileID: 1986853928279083538, guid: bf41441b3d5ad1349b5eb519bfab510c, type: 3}
+    keyCollision: 0
   _cardPrefabs:
     list:
     - Key: 1
@@ -128,6 +143,7 @@ MonoBehaviour:
   _playerStartingHealth: 20
   _playerStartingResource: 3
   _playerHandSize: 3
+  _aiDecisionTreeDepth: 10
   _cardSourceGradient:
     serializedVersion: 2
     key0: {r: 0.90933144, g: 1, b: 0, a: 1}

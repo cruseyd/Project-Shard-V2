@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class DecklistItemUI : MonoBehaviour, IDoubleClickable, ITargetUI
+public class DecklistItemUI : MonoBehaviour, IDoubleClickable, IRightClickable, ITargetUI
 {
     private int _quantity;
     private CardData _data;
@@ -38,8 +38,9 @@ public class DecklistItemUI : MonoBehaviour, IDoubleClickable, ITargetUI
         _quantityText.text = _quantity.ToString();
         _name.text = a_data.name;
         _level.text = a_data.level.ToString();
-
-        _background.color = CardGameParams.GetColor(a_data.color);
+        _background.color = Color.white;
+        _background.sprite = CardGameParams.GetDecklistItemSprite(a_data.color);
+        //_background.color = CardGameParams.GetColor(a_data.color);
     }
     public void Increment(int a_delta)
     {
@@ -50,10 +51,13 @@ public class DecklistItemUI : MonoBehaviour, IDoubleClickable, ITargetUI
 
     public void DoubleClick(PointerEventData eventData)
     {
-        Debug.Log("DecklistItemUI::DoubleClick");
     }
 
     public void Refresh()
+    {
+    }
+
+    public void RightClick(PointerEventData eventData)
     {
     }
 }

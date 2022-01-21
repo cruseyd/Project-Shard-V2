@@ -43,8 +43,8 @@ public class CA_BuffUnit : CardAbility
         query.isAlly = true;
         query.isCard = true;
         query.zones.Add(CardZone.Type.ACTIVE);
-        ActorCardStatModifier mod = new ActorCardStatModifier
-            (query, CardStats.Name.LEVEL, 1, _game, _source, _source.owner, Modifier.Duration.SOURCE);
+        AOECardStatModifier mod = new AOECardStatModifier
+            (query, CardStats.Name.POWER, _source.data.var1, _game, _source, _source.owner, Modifier.Duration.SOURCE);
         AddModifier(mod);
     }
 }
@@ -61,6 +61,23 @@ public class CA_DamageSpell : CardAbility
     public override void Play(List<ITarget> a_targets)
     {
         DamageData data = new DamageData(_source.data.var1, _source, (IDamageable)a_targets[0]);
+        DamageTarget(data);
+    }
+}
+public class CA_HealSpell : CardAbility
+{
+    public CA_HealSpell(CardGame a_game, Card a_card) : base(a_game, a_card)
+    {
+        TargetQuery query = new TargetQuery(a_card);
+        query.isAlly = true;
+        query.isCard = true;
+        query.isDamageable = true;
+        targets.Add(query);
+    }
+
+    public override void Play(List<ITarget> a_targets)
+    {
+        DamageData data = new DamageData(-_source.data.var1, _source, (IDamageable)a_targets[0]);
         DamageTarget(data);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardStatModifier : CardModifier
 {
     public readonly CardStats.Name stat;
-    public readonly int value;
+    public int value;
 
     public CardStatModifier(CardStats.Name a_stat, int a_value, CardGame a_game, ISource a_source, Card a_target, Duration a_duration)
     : base(a_game, a_source, a_target, a_duration)

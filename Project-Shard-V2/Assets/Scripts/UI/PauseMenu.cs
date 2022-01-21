@@ -40,7 +40,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void LoadScene(string a_sceneName)
     {
-        if (_active.name != a_sceneName)
+        if (_active.name == "CombatScene" || _active.name != a_sceneName)
         {
             SetDecks();
             SceneManager.LoadScene(a_sceneName);

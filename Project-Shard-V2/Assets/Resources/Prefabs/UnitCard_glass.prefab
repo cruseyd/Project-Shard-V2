@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 5979601179313418132}
   - component: {fileID: 6242727571226907809}
   - component: {fileID: 2058064016391716187}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4933,7 +4933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3589722926720707728}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: edge_particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5144,6 +5144,7 @@ GameObject:
   - component: {fileID: 732200176504987864}
   - component: {fileID: 3993113974820202968}
   - component: {fileID: 3605278899592469438}
+  - component: {fileID: 6404713110666008511}
   m_Layer: 0
   m_Name: UnitCard_glass
   m_TagString: Untagged
@@ -5362,6 +5363,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &6404713110666008511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082762082020173480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3399fa837659b0945b8af025aaa5d377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: 
+  content: 
 --- !u!1 &1093708820407732783
 GameObject:
   m_ObjectHideFlags: 0
@@ -10750,13 +10765,13 @@ GameObject:
   - component: {fileID: 8353889984906985408}
   - component: {fileID: 6500710173786279025}
   - component: {fileID: 9003577862212239101}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8353889984906985408
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10798,7 +10813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -20655,13 +20670,13 @@ GameObject:
   - component: {fileID: 3448731346251206886}
   - component: {fileID: 80662616742763742}
   - component: {fileID: 3809282553878230481}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: shadow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3448731346251206886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20703,7 +20718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -20807,7 +20822,7 @@ GameObject:
   - component: {fileID: 6018198927913420635}
   - component: {fileID: 4596656020460805971}
   - component: {fileID: 1354078523837065827}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35913,7 +35928,7 @@ GameObject:
   - component: {fileID: 4559367711096993551}
   - component: {fileID: 8077391374760489153}
   - component: {fileID: 6532887541102974158}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45871,7 +45886,7 @@ GameObject:
   - component: {fileID: 2584602147020617754}
   - component: {fileID: 7852690589358003964}
   - component: {fileID: 323269956288881714}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: top
   m_TagString: Untagged
   m_Icon: {fileID: 0}

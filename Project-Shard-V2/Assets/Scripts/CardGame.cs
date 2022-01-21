@@ -103,6 +103,7 @@ public class CardGame
         List<GameAction> actions = new List<GameAction>();
         foreach (Card card in a_actor.hand.cards)
         {
+            if (!card.Known(a_actor)) { continue; }
             if (!card.playable) { continue; }
             if (card.ability == null || card.ability.minTargets == 0)
             {
@@ -169,10 +170,47 @@ public class CardGame
         List<IDamageable> defenders = new List<IDamageable>();
         foreach (Actor opponent in a_unit.opponents)
         {
-            if (opponent.units.Count == 0) { defenders.Add(opponent); }
-            else
+            List<Card> enemyEvasive = opponent.GetCards(CardZone.Type.ACTIVE, AbilityKeyword.EVASIVE);
+            List<Card> enemyGuardian = opponent.GetCards(CardZone.Type.ACTIVE, AbilityKeyword.GUARDIAN);
+            List<UnitCard> enemyUnits = opponent.units;
+            List<Card> enemyNonEvasive = new List<Card>();
+            foreach (Card card in enemyUnits)
             {
-                defenders.AddRange(opponent.units);
+                if (!card.HasKeyword(AbilityKeyword.EVASIVE))
+                {
+                    enemyNonEvasive.Add(card);
+                }
+            }
+            if (enemyUnits.Count == 0)
+            {
+                defenders.Add(opponent);
+            } else
+            {
+                if (a_unit.HasKeyword(AbilityKeyword.EVASIVE))
+                {
+                    if (enemyEvasive.Count == 0) { defenders.Add(opponent); }
+                    defenders.AddRange(enemyUnits);
+                }
+                else
+                {
+                    if (enemyGuardian.Count > 0)
+                    {
+                        foreach (Card card in enemyGuardian)
+                        {
+                            defenders.Add(card as UnitCard);
+                        }
+                    }
+                    else if (enemyNonEvasive.Count > 0)
+                    {
+                        foreach (Card card in enemyNonEvasive)
+                        {
+                            defenders.Add(card as UnitCard);
+                        }
+                    } else
+                    {
+                        defenders.AddRange(enemyUnits);
+                    }
+                }
             }
         }
         return defenders;
@@ -228,7 +266,6 @@ public class CardGame
 
         _actions.Push(a_action);
         a_action.executing = true;
-        //Debug.Log("ACTION: " + a_action + " | Tree depth: " + _actions.Count);
         a_action.Execute(this);
         events.Refresh();
         a_action.executing = false;
@@ -239,7 +276,7 @@ public class CardGame
     {
         GameAction action = _actions.Pop();
         action?.Undo(this);
-        events.Refresh();
+        //events.Refresh();
         return action;
     }
 
@@ -253,12 +290,6 @@ public class CardGame
         return action;
     }
 
-    public void ConfirmAction()
-    {
-        GameAction action = UndoAllActions();
-        Debug.Log("ConfirmAction: " + action);
-        CombatManager.ConfirmAction(action);
-    }
     public void ConfirmAction(GameAction a_action)
     {
         _actions.Clear();
@@ -278,24 +309,123 @@ public class CardGame
             output += "\t\tHand: \n";
             foreach (Card card in players[pi].hand.cards)
             {
-                output += "\t\t\t" + card.ToString() + "\n";
+                output = PrintCard(output, card, player);
             }
             output += "\t\tActive: \n";
             foreach (Card card in players[pi].active.cards)
             {
-                output += "\t\t\t" + card.ToString() + "\n";
+                output = PrintCard(output, card, player);
             }
             output += "\t\tDiscard: \n";
             foreach (Card card in players[pi].discard.cards)
             {
-                output += "\t\t\t" + card.ToString() + "\n";
+                output = PrintCard(output, card, player);
             }
         }
         Debug.Log(output);
     }
+    public string PrintCard(string output, Card card, Actor player)
+    {
+        output += "\t\t\t" + card.ToString();
+        if (card.Known(player)) { output += " (known to owner) "; }
+        else { output += " (unknown to owner) "; }
+        output += "\n";
+        foreach (CardStatModifier modifier in card.stats.modifiers)
+        {
+            output += "\t\t\t\t modifier: " + modifier.stat.ToString();
+            if (modifier.value > 0)
+            {
+                output += " +" + modifier.value;
+            } else
+            {
+                output += " -" + Mathf.Abs(modifier.value);
+            }
+            output += "\n";
+        }
+        return output;
+    }
     public void Refresh()
     {
-        events.Refresh();
+        //events.Refresh();
         events.UIRefresh();
     }
+
+    public void UpdateCardKnowledge()
+    {
+        foreach (Actor player in _players)
+        {
+            foreach (Card card in player.hand.cards)
+            {
+                card.SetKnown(player, true);
+            }
+            foreach (Card card in player.active.cards)
+            {
+                card.SetKnown(player, true);
+                foreach (Actor opp in player.opponents)
+                {
+                    card.SetKnown(opp, true);
+                }
+            }
+            foreach (Card card in player.discard.cards)
+            {
+                card.SetKnown(player, true);
+                foreach (Actor opp in player.opponents)
+                {
+                    card.SetKnown(opp, true);
+                }
+            }
+            foreach (Card card in player.deck.cards)
+            {
+                card.SetKnown(player, false);
+                foreach (Actor opp in player.opponents)
+                {
+                    card.SetKnown(opp, false);
+                }
+            }
+        }
+    }
+
+    public void FixCardPlacement()
+    {
+        foreach (Actor player in players)
+        {
+            foreach (Card card in player.hand.cards)
+            {
+                if (card.ui.zone == ui.preview) { continue; }
+                if (card.ui.zone != player.hand.ui)
+                {
+                    card.ui.Move(player.hand.ui, card.ui.faceUp, false);
+                }
+            }
+            player.hand.ui.Organize();
+            foreach (Card card in player.active.cards)
+            {
+                if (card.ui.zone == ui.preview) { continue; }
+                if (card.ui.zone != player.active.ui)
+                {
+                    card.ui.Move(player.active.ui, card.ui.faceUp, false);
+                }
+            }
+            player.active.ui.Organize();
+            foreach (Card card in player.discard.cards)
+            {
+                if (card.ui.zone == ui.preview) { continue; }
+                if (card.ui.zone != player.discard.ui)
+                {
+                    card.ui.Move(player.discard.ui, card.ui.faceUp, false);
+                }
+            }
+            player.discard.ui.Organize();
+            foreach (Card card in player.deck.cards)
+            {
+                if (card.ui.zone == ui.preview) { continue; }
+                if (card.ui.zone != player.deck.ui)
+                {
+                    card.ui.Move(player.deck.ui, false, false);
+                }
+            }
+            player.deck.ui.Organize();
+        }
+    }
+
 }

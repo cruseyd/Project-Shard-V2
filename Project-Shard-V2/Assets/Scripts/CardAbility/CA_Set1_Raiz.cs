@@ -90,6 +90,7 @@ public class CA_Flurry : CardAbility
 
     public void PlayCardHandler(Actor a_actor, Card a_card)
     {
+        if (a_card == _source) { return; }
         if (a_card.HasKeyword(Keyword.T_TECHNIQUE) && _source.playedThisTurn && _source.zone.type == CardZone.Type.DISCARD)
         {
             AddToHand(_source);
@@ -154,5 +155,101 @@ public class CA_Sharpen : CardAbility
     {
         base.Play(a_targets);
         AddStatusEffect(_source.owner, StatusEffect.Name.Sharpen, 1);
+    }
+}
+
+public class CA_Relentless : CardAbility
+{
+    public CA_Relentless(CardGame a_game, Card a_card) : base(a_game, a_card)
+    {
+        TargetQuery query = new TargetQuery(a_card);
+        query.isEnemy = true;
+        query.isDamageable = true;
+        targets.Add(query);
+    }
+
+    public override void Play(List<ITarget> a_targets)
+    {
+        base.Play(a_targets);
+        DamageData data = new DamageData(_source.data.var1, _source, (IDamageable)a_targets[0]);
+        DamageTarget(data);
+        List<Card> handCards = _source.owner.hand.cards;
+        List<Card> actions = new List<Card>();
+        foreach (Card card in handCards)
+        {
+            if (card.data.type == Card.Type.ACTION)
+            {
+                actions.Add(card);
+            }
+        }
+        int roll = Random.Range(0, actions.Count);
+        AddStatusEffect(actions[roll], StatusEffect.Name.Alacrity, _source.data.var2);
+    }
+}
+
+public class CA_SeeingRed : CardAbility
+{
+    public CA_SeeingRed(CardGame a_game, Card a_card) : base(a_game, a_card)
+    {
+    }
+
+    public override void Play(List<ITarget> a_targets)
+    {
+        base.Play(a_targets);
+        AddStatusEffect(_source.owner, StatusEffect.Name.Frenzy, _source.data.var1);
+        DrawCards(_source.owner, 1);
+    }
+}
+
+public class CA_IntotheFray : CardAbility
+{
+    public CA_IntotheFray(CardGame a_game, Card a_card) : base(a_game, a_card)
+    {
+        _source.events.onCycle += CycleHandler;
+    }
+
+    public override void Play(List<ITarget> a_targets)
+    {
+        base.Play(a_targets);
+        AddStatusEffect(_source.owner, StatusEffect.Name.Frenzy, _source.data.var1);
+    }
+
+    private void CycleHandler(Card a_card)
+    {
+        AddStatusEffect(_source.owner, StatusEffect.Name.Frenzy, _source.data.var2);
+    }
+}
+
+public class CA_FeralThrash : CardAbility
+{
+
+    private CardStatModifier _mod;
+    public CA_FeralThrash(CardGame a_game, Card a_card) : base(a_game, a_card)
+    {
+        TargetQuery query = new TargetQuery(a_card);
+        query.isEnemy = true;
+        query.isDamageable = true;
+        targets.Add(query);
+        _mod = new CardStatModifier(CardStats.Name.LEVEL, 0, a_game, a_card, a_card, Modifier.Duration.PERMANENT);
+        a_game.events.onRefresh += OnRefresh;
+    }
+
+    public override void Play(List<ITarget> a_targets)
+    {
+        base.Play(a_targets);
+        DamageData data = new DamageData(_source.data.var1, _source, (IDamageable)a_targets[0]);
+        DamageTarget(data);
+    }
+
+    private void OnRefresh()
+    {
+        if (_source.isInHand)
+        {
+            _source.AddModifier(_mod); //adding modifier manually;
+            int numFrenzy = _source.owner.GetStatusEffect(StatusEffect.Name.Frenzy);
+            int discount = numFrenzy * _source.data.var2;
+            Debug.Log("Feral Thrash Discount: " + discount);
+            ChangeStatModifier(_mod, -discount);
+        }
     }
 }

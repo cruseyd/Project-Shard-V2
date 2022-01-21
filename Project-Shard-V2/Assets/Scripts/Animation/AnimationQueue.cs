@@ -21,7 +21,15 @@ public class AnimationQueue : MonoBehaviour
             PlayNext();
         }
     }
-    public static IEnumerator Finish() { _instance._animating = false; yield return null; }
+    public static IEnumerator Finish()
+    {
+        _instance._animating = false;
+        if (_instance._sequencedAnimations.Count == 0)
+        {
+            CombatManager.OrganizeAll();
+        }
+        yield return null;
+    }
     public static void PlayNext()
     {
         if (_instance._sequencedAnimations.Count > 0)

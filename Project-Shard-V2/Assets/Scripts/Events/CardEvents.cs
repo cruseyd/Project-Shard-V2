@@ -21,6 +21,7 @@ public class CardEvents
     public event Action<Card> onLeavePlay;
     public event Action<Card> onEnterPlay;
     public event Action<Card> onCycle;
+    public event Action<Card> onLeaveHand;
     public CardEvents(Card a_card) { _card = a_card; }
     public void CheckPlayable(Attempt a_attempt) { onCheckPlayable?.Invoke(_card, a_attempt); }
     public void CheckCanAttack(Attempt a_attempt) { onCheckCanAttack?.Invoke(_card, a_attempt); }
@@ -33,4 +34,5 @@ public class CardEvents
     public void LeavePlay() { onLeavePlay?.Invoke(_card); }
     public void EnterPlay() { onEnterPlay?.Invoke(_card); }
     public void Cycle() { onCycle?.Invoke(_card); }
+    public void LeaveHand() { onLeaveHand?.Invoke(_card); }
 }

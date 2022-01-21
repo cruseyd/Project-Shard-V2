@@ -12,6 +12,7 @@ public class DeckBuilderManager : MonoBehaviour
 
     [SerializeField] private CardZoneUI _cardPool;
     [SerializeField] private TMP_InputField _saveDeckInput;
+    [SerializeField] private TMP_Dropdown _loadDeckDropdown;
     [SerializeField] private SearchFilterUI _searchFilter;
     [SerializeField] private FilterOptionUI _colorFilter;
     [SerializeField] private FilterOptionUI _keywordFilter;
@@ -25,7 +26,8 @@ public class DeckBuilderManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-        } else
+        }
+        else
         {
             Destroy(this.gameObject);
         }
@@ -34,7 +36,6 @@ public class DeckBuilderManager : MonoBehaviour
         {
             _decklistItemUIPrefab = Resources.Load("Prefabs/DecklistItemUI") as GameObject;
         }
-
 
         _searchFilter.toggle.onValueChanged.AddListener(FilterCards);
         _searchFilter.input.onValueChanged.AddListener(FilterCards);
@@ -50,6 +51,19 @@ public class DeckBuilderManager : MonoBehaviour
 
         _cards = new List<CardUI>();
         _decklistItems = new List<DecklistItemUI>();
+
+        PopulateDecklistDropdown();
+    }
+
+    private void PopulateDecklistDropdown()
+    {
+        _loadDeckDropdown.ClearOptions();
+        List<TMP_Dropdown.OptionData> loadDeckOptions = new List<TMP_Dropdown.OptionData>();
+        foreach (string deckname in Decklist.GetDeckNames())
+        {
+            loadDeckOptions.Add(new TMP_Dropdown.OptionData(deckname));
+        }
+        _loadDeckDropdown.AddOptions(loadDeckOptions);
     }
 
     private void Start()
@@ -58,6 +72,7 @@ public class DeckBuilderManager : MonoBehaviour
         GameManager.SetMainCanvas(GetComponent<Canvas>());
         foreach (CardData data in cards)
         {
+            if (!data.implemented) { continue; }
             CardUI card = CardUI.Spawn(data, _cardPool);
             card.FaceUp(true);
             _cards.Add(card);
@@ -178,6 +193,18 @@ public class DeckBuilderManager : MonoBehaviour
             }
         }
     }
+    private void RemoveAll(CardData a_data)
+    {
+        foreach (DecklistItemUI item in _decklistItems)
+        {
+            if (item.data.id == a_data.id)
+            {
+                _decklistItems.Remove(item);
+                Destroy(item.gameObject);
+                return;
+            }
+        }
+    }
     public static bool ProcessInput(CardGameInput a_input)
     {
         if (a_input.target is CardUI)
@@ -186,10 +213,12 @@ public class DeckBuilderManager : MonoBehaviour
             switch (a_input.type)
             {
                 case CardGameInput.Type.BEGIN_HOVER:
-                    //card.Zoom(true);
+                    Debug.Log("Hovering" + card.name);
+                    card.Zoom(true);
                     return true;
                 case CardGameInput.Type.END_HOVER:
-                    //card.Zoom(false);
+                    Debug.Log("End Hovering" + card.name);
+                    card.Zoom(false);
                     return true;
                 case CardGameInput.Type.BEGIN_DRAG:
                     card.transform.SetParent(GameManager.overrideCanvas.transform);
@@ -218,6 +247,9 @@ public class DeckBuilderManager : MonoBehaviour
                 case CardGameInput.Type.DOUBLE_CLICK:
                     _instance.RemoveDecklistItem(item.data);
                     return true;
+                case CardGameInput.Type.RIGHT_CLICK:
+                    _instance.RemoveAll(item.data);
+                    return true;
             }
         }
         return false;
@@ -236,5 +268,29 @@ public class DeckBuilderManager : MonoBehaviour
             decklist.list.Add(new DecklistItem(item.data.id, item.quantity));
         }
         Decklist.SaveDeck(decklist);
+        PopulateDecklistDropdown();
+    }
+    public void ClearDeck()
+    {
+        foreach (DecklistItemUI item in _decklistItems)
+        {
+            Destroy(item.gameObject);
+        }
+        _decklistItems.Clear();
+    }
+    public void LoadDeck()
+    {
+        string deckName = _loadDeckDropdown.options[_loadDeckDropdown.value].text;
+        if (string.IsNullOrEmpty(deckName)) { return; }
+        ClearDeck();
+        Decklist deck = Decklist.Get(deckName);
+        foreach (DecklistItem item in deck.list)
+        {
+            for (int ii = 0; ii < item.qty; ii++)
+            {
+                AddDecklistItem(GameManager.cardIndex.Get(item.id));
+            }
+        }
+        _saveDeckInput.text = deckName;
     }
 }

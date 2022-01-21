@@ -28,7 +28,6 @@ public abstract class GameAction
         while (_result.Count > 0)
         {
             GameEffect effect = _result.Pop();
-            //Debug.Log("UNDO: " + effect);
             effect.Undo(a_game);
         }
     }

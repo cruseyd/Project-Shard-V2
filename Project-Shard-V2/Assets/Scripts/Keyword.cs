@@ -13,6 +13,7 @@ public enum Keyword
     E_LIGHTNING,
     E_EARTH,
     E_WIND,
+    E_POISON,
     E_LIGHT,
     E_DARK,
     E_ARCANE,
@@ -33,7 +34,8 @@ public enum Keyword
     S_DRAGON,
     S_SLIME,
     S_PLANT,
-    S_TARANZID
+    S_TARANZID,
+    S_FAIRY
 }
 
 public enum AbilityKeyword
@@ -43,12 +45,12 @@ public enum AbilityKeyword
     SWIFT = 1,
     NIMBLE,
     GUARDIAN,
-    ELUSIVE,
     EPHEMERAL,
-    WARDEN,
     PASSIVE,
     EVASIVE,
-    ENIGMATIC,
     OVERWHELM,
-    FRAGILE
+    FRAGILE,
+    RUSH,
+    WARD,
+    ARMOR
 }

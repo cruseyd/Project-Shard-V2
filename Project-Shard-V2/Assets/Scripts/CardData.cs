@@ -55,6 +55,8 @@ public class CardData : IComparable
             {
                 t += (Var(ii - 1) + bits[ii]);
             }
+            t = ParseSpecialWords(t);
+            t = StatusEffect.ParseStatusEffects(t);
             return t;
         }
     }
@@ -164,6 +166,15 @@ public class CardData : IComparable
             return Actor.StatName.DEFAULT;
         }
     }
+    public bool implemented
+    {
+        get
+        {
+            if (impl == "X" || impl == "x")
+            { return true; }
+            return false;
+        }
+    }
     public int GetStat(CardStats.Name a_stat)
     {
         switch (a_stat)
@@ -240,5 +251,19 @@ public class CardData : IComparable
         return false;
     }
 
-
+    public static string ParseSpecialWords(string a_string)
+    {
+        string output = a_string;
+        output = output.Replace("POWER", "<b>power</b>");
+        output = output.Replace("HEALTH", "<b>health</b>");
+        output = output.Replace("DEFIANCE", "<b>defiance</b>");
+        output = output.Replace("INFLUENCE", "<b>influence</b>");
+        output = output.Replace("FOCUS", "<b>focus</b>");
+        output = output.Replace("ACTIVATE", "<b>Activate</b>");
+        output = output.Replace("CHANNEL", "<b>Channel</b>");
+        output = output.Replace("CYCLE", "<b>Cycle</b>");
+        output = output.Replace("ACTION", "<b>Action</b>");
+        output = output.Replace("FOLLOWER", "<b>Follower</b>");
+        return output;
+    }
 }

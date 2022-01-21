@@ -76,6 +76,7 @@ public class CombatManager : MonoBehaviour
 
     public void ConfirmButton()
     {
+        Debug.Log("CombatManager::ConfirmButton");
         if (!_buttonsEnabled) { return; }
         _buttonsEnabled = false;
         _lastButtonPress = Time.time;
@@ -88,6 +89,10 @@ public class CombatManager : MonoBehaviour
     public void PrintButton()
     {
         _game.Print();
+    }
+    public static void OrganizeAll()
+    {
+        _instance._game.FixCardPlacement();
     }
     public static bool ProcessInput(CardGameInput a_input)
     {
@@ -112,7 +117,7 @@ public class CombatManager : MonoBehaviour
         if (a_action.actor == _instance._game.humanPlayer || (!a_action.previewForAI))
         {
             _instance._game.TakeAction(a_action);
-
+            _instance._game.UpdateCardKnowledge();
             _instance._game.Refresh();
             a_action.Show(_instance._game);
         }

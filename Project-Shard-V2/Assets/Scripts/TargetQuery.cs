@@ -10,7 +10,9 @@ public class TargetQuery
     public bool isCard = false;
     public List<CardZone.Type> zones;
     public List<Card.Type> cardTypes;
-    
+    public List<Keyword> keywords;
+    public List<AbilityKeyword> abilityKeywords;
+
     // Actor criteria
     public bool isActor = false;
     public bool isOwner = false;
@@ -30,6 +32,8 @@ public class TargetQuery
         cardTypes = new List<Card.Type>();
         zones = new List<CardZone.Type>();
         exclude = new List<ITarget>();
+        keywords = new List<Keyword>();
+        abilityKeywords = new List<AbilityKeyword>();
     }
 
     public bool Compare(ITarget a_target)
@@ -52,6 +56,10 @@ public class TargetQuery
             if (isActor  || isOwner || isOpponent) { return false; }
 
             // Card checks
+            foreach (Keyword key in keywords)
+            {
+                if (!card.HasKeyword(key)) { return false; }
+            }
             foreach (Card.Type type in cardTypes)
             {
                 if (card.data.type == type) { break; }
@@ -60,6 +68,11 @@ public class TargetQuery
             foreach (CardZone.Type type in zones)
             {
                 if (card.zone.type == type) { break; }
+                return false;
+            }
+            foreach (AbilityKeyword key in abilityKeywords)
+            {
+                if (card.HasKeyword(key)) { break; }
                 return false;
             }
             return true;

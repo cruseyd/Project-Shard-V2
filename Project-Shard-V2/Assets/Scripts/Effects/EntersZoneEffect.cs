@@ -22,6 +22,7 @@ public class EntersZoneEffect : GameEffect
         base.Execute(a_game);
         if (_prevZone.type != _destZone.type)
         {
+            if (_prevZone.type == CardZone.Type.HAND) { _card.events.LeaveHand(); }
             if (_prevZone.type == CardZone.Type.ACTIVE) { _card.events.LeavePlay(); }
             if (_destZone.type == CardZone.Type.ACTIVE) { _card.events.EnterPlay(); }
             if (_prevZone.type == CardZone.Type.DECK && _destZone.type == CardZone.Type.DECK) { _card.events.Draw(); }

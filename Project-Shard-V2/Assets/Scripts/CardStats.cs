@@ -65,7 +65,7 @@ public class CardStats
         }
         if (_card != null)
         {
-            foreach (ActorCardStatModifier mod in _card.owner.cardStatModifiers)
+            foreach (AOECardStatModifier mod in _card.owner.cardStatModifiers)
             {
                 if (mod.stat == a_name && mod.Compare(_card))
                 {
@@ -73,7 +73,7 @@ public class CardStats
                 }
             }
         }
-        return value;
+        return Mathf.Max(value, 0);
     }
     public void Set(Name a_name, int a_value)
     {

@@ -1,5 +1,6 @@
 [
   {
+    "tst": "X",
     "impl": "X",
     "set": 1,
     "name": "Slash",
@@ -12,6 +13,7 @@
     "var1": 2
   },
   {
+    "tst": "X",
     "impl": "X",
     "set": 1,
     "name": "Wild Swing",
@@ -42,6 +44,7 @@
     "var2": 1
   },
   {
+    "tst": "X",
     "impl": "X",
     "set": 1,
     "name": "Flurry",
@@ -67,6 +70,7 @@
     "basetext": "Deal damage to an enemy equal to your RAIZ."
   },
   {
+    "tst": "X",
     "impl": "X",
     "set": 1,
     "name": "Blitz",
@@ -76,11 +80,12 @@
     "t1": "R",
     "t2": "R",
     "k1": "Technique",
-    "basetext": "Draw a card. Gain #/0 FOCUS for each Technique in your hand. CYCLE: Gain #/0 FOCUS.",
+    "basetext": "Draw a card. Gain # FOCUS for each Technique in your hand. CYCLE: Gain # ACUMEN.",
     "var1": 1,
     "var2": 1
   },
   {
+    "tst": "X",
     "impl": "X",
     "set": 1,
     "name": "Sharpen",
@@ -92,21 +97,23 @@
     "basetext": "Your Slashing Techniques deal an additional 1 damage this turn."
   },
   {
+    "tst": "X",
+    "impl": "X",
     "set": 1,
     "name": "Relentless",
-    "level": 0,
+    "level": 2,
     "stype": "ACTION",
     "scolor": "RAIZ",
     "t1": "R",
     "t2": "R",
     "t3": "R",
-    "t4": "R",
-    "t5": "R",
     "k1": "Technique",
-    "basetext": "Draw a card. If you have a Technique in your hand, gain # ALACRITY",
-    "var1": 1
+    "basetext": "Deal # damage to an enemy. Gain # ALACRITY for each Technique in your hand.",
+    "var1": 2,
+    "var2": 1
   },
   {
+    "impl": "X",
     "set": 1,
     "name": "Seeing Red",
     "level": 1,
@@ -117,6 +124,7 @@
     "var1": 1
   },
   {
+    "impl": "X",
     "set": 1,
     "name": "Into the Fray",
     "level": 2,
@@ -129,6 +137,7 @@
     "var2": 1
   },
   {
+    "impl": "X",
     "set": 1,
     "name": "Feral Thrash",
     "level": 3,
@@ -136,7 +145,7 @@
     "scolor": "RAIZ",
     "t1": "R",
     "k1": "Technique",
-    "basetext": "Deal # damage to an enemy. This costs -# FOCUS for each stack of FRENZY you have.",
+    "basetext": "Deal # damage to an enemy. This costs # less for each stack of FRENZY you have.",
     "var1": 3,
     "var2": 1
   },

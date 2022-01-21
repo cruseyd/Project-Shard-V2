@@ -364,6 +364,7 @@ public class PreviewPhase : GamePhase
     public override GamePhase Confirm(CardGame a_game)
     {
         a_game.TakeAction(_action);
+        a_game.UpdateCardKnowledge();
         _action.Show(a_game);
         if (a_game.currentPlayer == a_game.humanPlayer || _action is EndTurn)
         {
@@ -379,7 +380,7 @@ public class PreviewPhase : GamePhase
     public override void Exit(CardGame a_game)
     {
         a_game.ui.DisableTargetEffects();
-        a_game.events.Refresh();
+        a_game.Refresh();
     }
 
     public override GamePhase Enter(CardGame a_game)

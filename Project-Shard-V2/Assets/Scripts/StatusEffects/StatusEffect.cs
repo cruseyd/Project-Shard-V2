@@ -12,6 +12,13 @@ public abstract class StatusEffect : Ability, ISource
         // General status effects
         Poison = 1,
         Acumen,
+        Alacrity,
+        Frenzy,
+        Chilled,
+        Impaled,
+        Frozen,
+        Armor,
+        Memorize,
 
         // Card specific status effects
         Sharpen = 1000
@@ -36,16 +43,37 @@ public abstract class StatusEffect : Ability, ISource
     }
     public static string Tooltip (Name a_name)
     {
+        string text = "";
         switch (a_name)
         {
             case Name.Poison:
-                return "At the start of your turn, this takes 1 damage and loses 1 stack of POISON.";
+                text = "At the start of your turn, this takes 1 damage and loses 1 stack of POISON.";
+                break;
             case Name.Acumen:
-                return "At the start of your turn, remove all stacks of ACUMEN and gain that much temporary FOCUS.";
+                text = "At the start of your turn, remove all stacks of ACUMEN and gain that much temporary FOCUS.";
+                break;
+            case Name.Alacrity:
+                text = "While in hand, this card's cost is reduced by the number of stacks of ALACRITY.";
+                break;
+            case Name.Frenzy:
+                text = "When you play an ACTION, remove 1 stack of FRENZY, take 1 damage and gain 1 temporary FOCUS.";
+                break;
             case Name.Sharpen:
-                return GameManager.cardIndex.Get("SHARPEN").text;
+                return GameManager.cardIndex.Get("Sharpen").text;
             default: return "";
         }
+        text = CardData.ParseSpecialWords(text);
+        text = StatusEffect.ParseStatusEffects(text);
+        return text;
+    }
+    public static string ParseStatusEffects(string a_string)
+    {
+        string output = a_string;
+        foreach (string se in Enum.GetNames(typeof(StatusEffect.Name)))
+        {
+            output = output.Replace(se.ToUpper(), "<b>" + se + "</b>");
+        }
+        return output;
     }
     public StatusEffect(CardGame a_game, ITarget a_target) : base(a_game)
     {

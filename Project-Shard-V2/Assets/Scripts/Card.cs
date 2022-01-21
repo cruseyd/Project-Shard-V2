@@ -52,6 +52,8 @@ public abstract class Card : ITarget, IModifiable, ISource
     protected Dictionary<AbilityKeyword, KeyAbility> _keyAbilities;
     protected CardGame _game;
     protected bool _hasTargets;
+    protected bool _ownerKnown;
+    protected bool _opponentKnown;
     public int numActions;
     public SourceEvents sourceEvents { get; protected set; }
     public CardEvents events { get; private set; }
@@ -113,11 +115,10 @@ public abstract class Card : ITarget, IModifiable, ISource
         get
         {
             if (CombatManager.phase == GamePhase.Name.PRE_GAME) { return false; }
-            if (owner.focus < data.level) { return false; }
             if (_game.currentPlayer != owner) { return false; }
             if (zone.type != CardZone.Type.HAND) { return false; }
             if (!_hasTargets) { return false; }
-            if (owner.GetStat(Actor.StatName.FOCUS) < data.level) { return false; }
+            if (owner.GetStat(Actor.StatName.FOCUS) < stats.Get(CardStats.Name.LEVEL)) { return false; }
             /*
             if (owner.GetStat(Actor.StatName.THRESHOLD_RED) < RequiredThreshold(Card.Color.RED)) { return false; }
             if (owner.GetStat(Actor.StatName.THRESHOLD_GRN) < RequiredThreshold(Card.Color.GREEN)) { return false; }
@@ -169,8 +170,6 @@ public abstract class Card : ITarget, IModifiable, ISource
         events = new CardEvents(this);
         sourceEvents = new SourceEvents(this);
 
-        //_stats = new Dictionary<StatName, int>();
-        //_modifiers = new List<CardModifier>();
         _stats = new CardStats(this);
         _statusEffects = new Dictionary<StatusEffect.Name, StatusEffect>();
 
@@ -186,9 +185,15 @@ public abstract class Card : ITarget, IModifiable, ISource
         }
         numActions = 1;
         _hasTargets = true;
+        _ownerKnown = false;
+        _opponentKnown = false;
 
         a_game.events.onRefresh += Refresh;
- 
+        owner.events.onStartTurn += (_actor_) =>
+        {
+            this.numActions = 1;
+        };
+
     }
     public abstract CardUI Spawn(Vector3 a_spawnPosition, CardZoneUI a_zone);
     public virtual void Initialize()
@@ -213,7 +218,7 @@ public abstract class Card : ITarget, IModifiable, ISource
                 List<List<ITarget>> targets = _game.FindTargets(this, TargetingPhase.Action.ACTIVATION);
                 if (targets.Count == 0) { _hasTargets = false; }
             }
-        }
+        } 
     }
     public bool HasKeyword(Keyword a_key)
     {
@@ -239,7 +244,7 @@ public abstract class Card : ITarget, IModifiable, ISource
                 }
             }
         }
-        foreach (ActorCardStatModifier mod in owner.cardStatModifiers)
+        foreach (AOECardStatModifier mod in owner.cardStatModifiers)
         {
             if (mod.stat == a_stat && mod.Compare(this))
             {
@@ -263,17 +268,31 @@ public abstract class Card : ITarget, IModifiable, ISource
             owner = a_actor;
             owner.events.onStartTurn += (_actor_) =>
             {
+                Debug.Log("Reset numActions for " + data.name);
                 this.numActions = 1;
             };
         }
     }
-    /*
-    public void IncrementStat(StatName a_stat, int a_value)
+    public void SetKnown(Actor a_actor, bool a_flag)
     {
-        Debug.Assert(_stats.ContainsKey(a_stat));
-        _stats[a_stat] += a_value;
+        if (a_actor == owner)
+        {
+            _ownerKnown = a_flag;
+        } else
+        {
+            _opponentKnown = a_flag;
+        }
     }
-    */
+    public bool Known(Actor a_actor)
+    {
+        if (a_actor == owner)
+        {
+            return _ownerKnown;
+        } else
+        {
+            return _opponentKnown;
+        }
+    }
     public int RequiredThreshold(Card.Color a_color)
     {
         int n = 0;

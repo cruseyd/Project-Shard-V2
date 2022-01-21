@@ -50,7 +50,23 @@ public class GameManager : MonoBehaviour
             CardGameInput input = new CardGameInput(CardGameInput.Type.CONFIRM, null, null);
             CombatManager.ProcessInput(input);
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current);
+            eventData.position = Input.mousePosition;
+            List<RaycastResult> hits = new List<RaycastResult>();
+            _mainCanvas.GetComponent<GraphicRaycaster>().Raycast(eventData, hits);
+            foreach (RaycastResult hit in hits)
+            {
+                IRightClickable target = hit.gameObject.GetComponent<IRightClickable>();
+                if (target != null)
+                {
+                    CardGameInput input = new CardGameInput(CardGameInput.Type.RIGHT_CLICK, target.gameObject.transform, eventData);
+                    ProcessInput(input);
+                }
+            }
+        }
+        else if (Input.GetMouseButtonDown(0))
         {
             if ((Time.time - _lastLeftClick) < 0.5f)
             {
@@ -145,7 +161,6 @@ public class GameManager : MonoBehaviour
         Debug.LogWarning("Could not parse text as Keyword: " + a_string);
         return (Keyword)(-1);
     }
-
     public static string ParseKeywordAsText(Keyword a_key)
     {
         return a_key.ToString().Split('_')[1];

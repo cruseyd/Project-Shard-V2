@@ -35,16 +35,16 @@ public class Actor : ITarget, IModifiable, IDamageable
     private CardGame _game;
 
     public bool canTribute;
-    public List<ActorCardStatModifier> cardStatModifiers
+    public List<AOECardStatModifier> cardStatModifiers
     {
         get
         {
-            List<ActorCardStatModifier> mods = new List<ActorCardStatModifier>();
+            List<AOECardStatModifier> mods = new List<AOECardStatModifier>();
             foreach (ActorModifier mod in _modifiers)
             {
-                if (mod is ActorCardStatModifier)
+                if (mod is AOECardStatModifier)
                 {
-                    mods.Add((ActorCardStatModifier)mod);
+                    mods.Add((AOECardStatModifier)mod);
                 }
             }
             return mods;
@@ -200,16 +200,49 @@ public class Actor : ITarget, IModifiable, IDamageable
         Debug.Assert(_stats.ContainsKey(a_stat));
         _stats[a_stat] += a_value;
     }
-    public List<Card> GetCards(CardZone.Type a_zoneName)
-    {
-        Debug.Assert(_zones.ContainsKey(a_zoneName));
-        return _zones[a_zoneName].cards;
-    }
-
     public CardZone GetZone(CardZone.Type a_zoneName)
     {
         if (!_zones.ContainsKey(a_zoneName)) { return null; }
         return _zones[a_zoneName];
+    }
+    public List<Card> GetCards(CardZone.Type a_zone, AbilityKeyword a_keyword)
+    {
+        TargetQuery query = new TargetQuery(null);
+        query.abilityKeywords.Add(a_keyword);
+        return GetCards(a_zone, query);
+    }
+    public List<Card> GetCards (CardZone.Type a_zone, Keyword a_keyword)
+    {
+        TargetQuery query = new TargetQuery(null);
+        query.keywords.Add(a_keyword);
+        return GetCards(a_zone, query);
+    }
+    public List<Card> GetCards(CardZone.Type a_zone, TargetQuery a_query = null)
+    {
+        List<Card> cards = new List<Card>();
+        List<Card> returnCards = new List<Card>();
+        switch (a_zone)
+        {
+            case CardZone.Type.HAND:
+                cards = hand.cards;
+                break;
+            case CardZone.Type.ACTIVE:
+                cards = active.cards;
+                break;
+            case CardZone.Type.DISCARD:
+                cards = discard.cards;
+                break;
+            default: break;
+        }
+        for (int ii = cards.Count-1; ii >= 0; ii--)
+        {
+            Card card = cards[ii];
+            if (a_query.Compare(card))
+            {
+                returnCards.Add(card);
+            }
+        }
+        return returnCards;
     }
 
     //=============================================================================================
@@ -218,7 +251,7 @@ public class Actor : ITarget, IModifiable, IDamageable
     {
         Card drawn = deck.Draw();
         if (drawn == null) { return null; }
-        drawn.Move(hand);
+        //drawn.Move(hand);
         return drawn;
     }
     public void Discard(Card a_card)
@@ -230,12 +263,15 @@ public class Actor : ITarget, IModifiable, IDamageable
         List<GameAction> actions = a_game.ListActions(a_actor);
         float score = a_game.Evaluate(a_actor);
         Decision decision = new Decision(new EndTurn(a_actor), score);
-        foreach (GameAction action in actions)
+        if (a_actions.Count < CardGameParams.aiDecisionTreeDepth)
         {
-            a_game.TakeAction(action);
-            Decision branchScore = Choose(a_game, a_actor, a_actions);
-            if (branchScore.score > score) { decision = new Decision(action, branchScore.score); }
-            a_game.UndoAction();
+            foreach (GameAction action in actions)
+            {
+                a_game.TakeAction(action);
+                Decision branchScore = Choose(a_game, a_actor, a_actions);
+                if (branchScore.score > score) { decision = new Decision(action, branchScore.score); }
+                a_game.UndoAction();
+            }
         }
         a_actions.Push(decision);
         return decision;
@@ -256,26 +292,28 @@ public class Actor : ITarget, IModifiable, IDamageable
             a_game.Print();
         }
         Decision decision = ChooseDismissal(a_game);
-        foreach (GameAction action in actions)
+        if (a_actions.Count < CardGameParams.aiDecisionTreeDepth)
         {
-            float testScore_0 = a_game.Evaluate(this);
-            a_game.TakeAction(action);
-            a_actions.Add(action);
-            Decision branchScore = Choose(a_game, a_actor, a_actions);
-            if (branchScore.score > score)
+            foreach (GameAction action in actions)
             {
-                decision = new Decision(action, branchScore.score);
-                score = branchScore.score;
+                float testScore_0 = a_game.Evaluate(this);
+                a_game.TakeAction(action);
+                a_actions.Add(action);
+                Decision branchScore = Choose(a_game, a_actor, a_actions);
+                if (branchScore.score > score)
+                {
+                    decision = new Decision(action, branchScore.score);
+                    score = branchScore.score;
+                }
+                a_game.UndoAction();
+                float testScore_1 = a_game.Evaluate(this);
+                if (testScore_0 != testScore_1)
+                {
+                    Debug.Log("Error reversing action: " + action.ToString());
+                }
+                a_actions.Remove(action);
             }
-            a_game.UndoAction();
-            float testScore_1 = a_game.Evaluate(this);
-            if (testScore_0 != testScore_1)
-            {
-                Debug.Log("Error reversing action: " + action.ToString());
-            }
-            a_actions.Remove(action);
         }
-        
         return decision;
     }
     public Decision ChooseDismissal(CardGame a_game)
@@ -355,7 +393,6 @@ public class Actor : ITarget, IModifiable, IDamageable
         {
             ActorModifier mod = a_modifier as ActorModifier;
             if (_modifiers.Contains(mod)) { return; }
-            Debug.Log("Actor::AddModifier");
             _modifiers.Add(mod);
             mod.Activate();
         }

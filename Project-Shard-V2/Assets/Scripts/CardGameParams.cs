@@ -12,6 +12,7 @@ public class CardGameParams : MonoBehaviour
     [SerializeField] private GenericDictionary<CardStats.Name, CardStats.Name> _cardStatPairs;
     [SerializeField] private GenericDictionary<Card.Color, Color> _cardColors;
     [SerializeField] private GenericDictionary<Card.Color, Sprite> _cardSprites;
+    [SerializeField] private GenericDictionary<Card.Color, Sprite> _decklistItemSprites;
     [SerializeField] private GenericDictionary<Card.Type, GameObject> _cardPrefabs;
     [SerializeField] private GenericDictionary<Card.Color, Color> _thresholdColors_0;
     [SerializeField] private GenericDictionary<Card.Color, Color> _thresholdColors_1;
@@ -19,6 +20,7 @@ public class CardGameParams : MonoBehaviour
     [SerializeField] private int _playerStartingHealth;
     [SerializeField] private int _playerStartingResource;
     [SerializeField] private int _playerHandSize;
+    [SerializeField] private int _aiDecisionTreeDepth;
 
     [SerializeField] private Gradient _cardSourceGradient;
     [SerializeField] private Gradient _cardTributeGradient;
@@ -33,6 +35,7 @@ public class CardGameParams : MonoBehaviour
     public static int playerHandSize { get { return _instance._playerHandSize; } }
     public static int playerStartingHealth { get { return _instance._playerStartingHealth; } }
     public static int playerStartingResource { get { return _instance._playerStartingResource; } }
+    public static int aiDecisionTreeDepth {  get { return _instance._aiDecisionTreeDepth; } }
     public static float cardAnimationRate { get { return _instance._cardAnimationRate; } }
     public static float cardHeight { get { return _instance._cardHeight; } }
     public static float cardWidth { get { return _instance._cardWidth; } }
@@ -52,6 +55,7 @@ public class CardGameParams : MonoBehaviour
     public static Color GetColor(Card.Color a_color) { return _instance._cardColors[a_color]; }
     public static GameObject GetCardPrefab(Card.Type a_type) { return _instance._cardPrefabs[a_type]; }
     public static Sprite GetCardSprite(Card.Color a_color) { return _instance._cardSprites[a_color]; }
+    public static Sprite GetDecklistItemSprite(Card.Color a_color) { return _instance._decklistItemSprites[a_color]; }
     void Awake()
     {
         if (_instance == null)

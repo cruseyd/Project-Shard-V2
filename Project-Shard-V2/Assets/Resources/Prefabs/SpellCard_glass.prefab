@@ -10466,6 +10466,7 @@ GameObject:
   - component: {fileID: 8597943025594085164}
   - component: {fileID: 7815124544139039630}
   - component: {fileID: 3337256594081893534}
+  - component: {fileID: 861990920205580083}
   m_Layer: 0
   m_Name: SpellCard_glass
   m_TagString: Untagged
@@ -10676,6 +10677,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &861990920205580083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082762082020173480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3399fa837659b0945b8af025aaa5d377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: 
+  content: 
 --- !u!1 &1385067481398558833
 GameObject:
   m_ObjectHideFlags: 0
@@ -10729,7 +10744,7 @@ GameObject:
   - component: {fileID: 8105710584146938849}
   - component: {fileID: 7982968026198415820}
   - component: {fileID: 6060225686901922438}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16034,13 +16049,13 @@ GameObject:
   - component: {fileID: 8078757074589639646}
   - component: {fileID: 1951853216625862892}
   - component: {fileID: 2497173913289699816}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: shadow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8078757074589639646
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16082,7 +16097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -26014,7 +26029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 764808161306187064}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: edge_particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30947,13 +30962,13 @@ GameObject:
   - component: {fileID: 5875865320380761064}
   - component: {fileID: 6283153561032959664}
   - component: {fileID: 4700161279443681867}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5875865320380761064
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30995,7 +31010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -31099,7 +31114,7 @@ GameObject:
   - component: {fileID: 8866766708776406785}
   - component: {fileID: 6249241152538850182}
   - component: {fileID: 8638086495201309852}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40892,7 +40907,7 @@ GameObject:
   - component: {fileID: 5735453909200972669}
   - component: {fileID: 2003196614937572690}
   - component: {fileID: 3777791471974677479}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50633,7 +50648,7 @@ GameObject:
   - component: {fileID: 3007683329076803206}
   - component: {fileID: 3563694986654217711}
   - component: {fileID: 4981614580831950517}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
