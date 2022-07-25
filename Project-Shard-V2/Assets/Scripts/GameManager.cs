@@ -119,10 +119,10 @@ public class GameManager : MonoBehaviour
             switch (a_input.type)
             {
                 case CardGameInput.Type.BEGIN_HOVER:
-                    //card.Zoom(true);
+                    card.Zoom(true);
                     break;
                 case CardGameInput.Type.END_HOVER:
-                    //card.Zoom(false);
+                    card.Zoom(false);
                     break;
                 case CardGameInput.Type.BEGIN_DRAG:
                     _instance._draggedItemPrevTransform = card.transform.parent;
@@ -141,28 +141,5 @@ public class GameManager : MonoBehaviour
             }
         }
         
-    }
-
-    public static Keyword ParseTextAsKeyword(string a_string)
-    {
-        string baseString = a_string.ToUpper();
-        string[] keyStrings = {
-            "T_" + baseString,
-            "E_" + baseString,
-            "C_" + baseString,
-            "R_" + baseString,
-            "S_" + baseString
-        };
-        foreach (string s in keyStrings)
-        {
-            if (Enum.IsDefined(typeof(Keyword), s))
-            { return (Keyword)Enum.Parse(typeof(Keyword), s); }
-        }
-        Debug.LogWarning("Could not parse text as Keyword: " + a_string);
-        return (Keyword)(-1);
-    }
-    public static string ParseKeywordAsText(Keyword a_key)
-    {
-        return a_key.ToString().Split('_')[1];
     }
 }

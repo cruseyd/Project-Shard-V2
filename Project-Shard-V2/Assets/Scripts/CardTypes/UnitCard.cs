@@ -15,10 +15,7 @@ public class UnitCard : Card, IDamageable
             if (!_game.IsActorTurn(owner)) { return false; }
             if (zone.type != CardZone.Type.ACTIVE) { return false; }
             if (numActions <= 0) { return false; }
-            if (playedThisTurn)
-            {
-                if (!HasKeyword(AbilityKeyword.SWIFT)) { return false; }
-            }
+
             Attempt attempt = new Attempt();
             events.CheckCanAttack(attempt);
             return attempt.success;
@@ -81,8 +78,13 @@ public class UnitCard : Card, IDamageable
             int maxHeal = health - maxHealth;
             a_damageData.damage = Mathf.Clamp(a_damageData.damage, maxHeal, 0);
         }
-
+        int overkillDamage = 0;
+        if (a_damageData.damage > 0)
+        {
+            overkillDamage = a_damageData.damage - health;
+        }
         stats.Increment(CardStats.Name.HEALTH, -a_damageData.damage);
+        
         a_damageData.locked = true; //if the data is altered after this, undo wont work
         
         if (a_damageData.damage > 0)
@@ -90,6 +92,12 @@ public class UnitCard : Card, IDamageable
             a_damageData.source.sourceEvents.DealDamage(a_damageData);
             damageEvents.TakeDamage(a_damageData);
             a_damageData.source.owner.events.DealDamage(a_damageData);
+            if (overkillDamage > 0)
+            {
+                DamageData overkillData = new DamageData(overkillDamage, a_damageData.source, this);
+                a_damageData.source.sourceEvents.DealOverkillDamage(overkillData);
+                damageEvents.TakeOverkillDamage(overkillData);
+            }
         } else if (a_damageData.damage < 0)
         {
             a_damageData.source.sourceEvents.Heal(a_damageData);

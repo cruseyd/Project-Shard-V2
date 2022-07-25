@@ -17,15 +17,22 @@ public class DrawCardEffect : GameEffect
         if (_player.deck.cards.Count == 0)
         {
             List<Card> discardPile = _player.discard.cards;
-            Debug.Log("Deck is empty, shuffling " + discardPile.Count + " cards.");
             for (int ii = discardPile.Count - 1; ii >= 0; ii--)
             {
                 EntersZoneEffect insertEffect = new EntersZoneEffect(discardPile[ii], _player.deck, false, false);
                 insertEffect.Execute(a_game);
             }
             _player.deck.Shuffle();
-            IncrementActorStatEffect addResourceEffect = new IncrementActorStatEffect(Actor.StatName.MAX_FOCUS, 1, _player);
-            addResourceEffect.Execute(a_game);
+            if (_player.GetStat(Actor.StatName.MAX_FOCUS) < CardGameParams.playerMaxResource)
+            {
+                IncrementActorStatEffect addResourceEffect = new IncrementActorStatEffect(Actor.StatName.MAX_FOCUS, 1, _player);
+                addResourceEffect.Execute(a_game);
+            }
+            if (_player.GetStat(Actor.StatName.INFLUENCE) < CardGameParams.playerMaxInfluence)
+            {
+                IncrementActorStatEffect addInfluenceEffect = new IncrementActorStatEffect(Actor.StatName.INFLUENCE, 1, _player);
+                addInfluenceEffect.Execute(a_game);
+            }
         }
         _drawnCard = _player.Draw();
         EntersZoneEffect drawEffect = new EntersZoneEffect(_drawnCard, _player.hand, true);

@@ -14,6 +14,8 @@ public abstract class Ability
         _game = a_game;
         targets = new List<TargetQuery>();
     }
+    public virtual void Enable() { }
+    public virtual void Disable() { }
     protected void DrawCards(Actor a_actor, int a_n)
     {
         for (int ii = 0; ii < a_n; ii++)
@@ -32,7 +34,6 @@ public abstract class Ability
         DamageTargetEffect effect = new DamageTargetEffect(a_data);
         effect.Execute(_game);
     }
-
     protected void AddFocus(Actor a_actor, int a_temp, int a_max)
     {
         if (a_temp != 0)

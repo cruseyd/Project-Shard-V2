@@ -1445,7 +1445,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 100
   m_Viewport: {fileID: 1522518793}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1656171746}
@@ -2510,11 +2510,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.72760475
+      value: 0.46713066
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_Pivot.y
-      value: 1.0418963
+      value: 1.0573318
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2526,11 +2526,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 437.0011
+      value: -63.10913
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 585.24805
+      value: 601.91833
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418515992278, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3910,7 +3910,7 @@ MonoBehaviour:
   paddingLeft: 100
   paddingRight: 100
   paddingTop: 130
-  paddingBottom: 0
+  paddingBottom: 200
   spacing: {x: 10, y: 20}
   fillHorizontal: 1
 --- !u!222 &1731695255
@@ -4072,7 +4072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1807790163
 RectTransform:
   m_ObjectHideFlags: 0

@@ -19,48 +19,27 @@ public class UnitCombatEffect : GameEffect
     public override void Execute(CardGame a_game)
     {
         base.Execute(a_game);
+        // Attack
         DamageData attackerDamage = new DamageData(_attacker.power, _attacker, _defender);
-        int defenderHealth = _defender.stats.Get(CardStats.Name.HEALTH);
         _defender.TakeDamage(attackerDamage);
-        // note that the actual damage might be altered inside of TakeDamage
-        int damageDealt = attackerDamage.damage;
-        int overkillDamage = damageDealt - defenderHealth;
-        if (_attacker.HasKeyword(AbilityKeyword.OVERWHELM) && overkillDamage > 0)
+
+        // CounterAttack
+        DamageData defenderDamage = new DamageData(_defender.power, _defender, _attacker);
+        _attacker.damageEvents.BeforeTakeCounterAttackDamage(defenderDamage);
+        _attacker.TakeDamage(defenderDamage);
+        _attacker.damageEvents.TakeCounterAttackDamage(defenderDamage);
+
+        // Check for Death
+        if (_defender.health <= 0)
         {
-            DamageData overwhelmDamage = new DamageData(overkillDamage, _attacker, _defender.owner);
-            DamageTargetEffect overwhelmEffect = new DamageTargetEffect(overwhelmDamage);
-            overwhelmEffect.Execute(a_game);
+            DeathEffect death = new DeathEffect(_defender, attackerDamage);
+            death.Execute(a_game);
         }
-        if (_attacker.HasKeyword(AbilityKeyword.RUSH))
+        if (_attacker.health <= 0)
         {
-            if (_defender.health <= 0)
-            {
-                DeathEffect death = new DeathEffect(_defender, attackerDamage);
-                death.Execute(a_game);
-                return;
-            }
-            DamageData defenderDamage = new DamageData(_defender.power, _defender, _attacker);
-            _attacker.TakeDamage(defenderDamage);
-            if (_attacker.health <= 0)
-            {
-                DeathEffect death = new DeathEffect(_attacker, defenderDamage);
-                death.Execute(a_game);
-            }
-        } else {
-            DamageData defenderDamage = new DamageData(_defender.power, _defender, _attacker);
-            _attacker.TakeDamage(defenderDamage);
-            if (_defender.health <= 0)
-            {
-                DeathEffect death = new DeathEffect(_defender, attackerDamage);
-                death.Execute(a_game);
-            }
-            if (_attacker.health <= 0)
-            {
-                DeathEffect death = new DeathEffect(_attacker, defenderDamage);
-                death.Execute(a_game);
-            }
+            DeathEffect death = new DeathEffect(_attacker, defenderDamage);
+            death.Execute(a_game);
         }
-        
     }
     public override void Show(CardGame a_game)
     {

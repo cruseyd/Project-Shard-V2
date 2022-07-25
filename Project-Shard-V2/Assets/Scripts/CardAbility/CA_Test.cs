@@ -130,6 +130,6 @@ public class CA_PoisonSpell : CardAbility
     }
     public override void Play(List<ITarget> a_targets)
     {
-        AddStatusEffect(a_targets[0], StatusEffect.Name.Poison, _source.data.var1);
+        AddStatusEffect(a_targets[0], StatusEffect.Name.POISON, _source.data.var1);
     }
 }

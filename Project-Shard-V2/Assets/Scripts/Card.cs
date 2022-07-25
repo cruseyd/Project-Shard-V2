@@ -4,17 +4,6 @@ using UnityEngine;
 
 public abstract class Card : ITarget, IModifiable, ISource
 {
-    /*
-    public enum StatName
-    {
-        DEFAULT,
-        LEVEL,
-        POWER,
-        HEALTH,
-        MAX_HEALTH,
-        DEFIANCE
-    }
-    */
     public enum Type
     {
         DEFAULT,
@@ -25,20 +14,27 @@ public abstract class Card : ITarget, IModifiable, ISource
     public enum Color
     {
         DEFAULT,
-        RED,
-        GREEN,
-        BLUE,
-        VIOLET,
-        GOLD,
-        INDIGO
+        RAIZ,
+        FEN,
+        IRI,
+        LIS,
+        ORA,
+        VAEL
     }
 
     public static Card Get(CardGame a_game, CardData a_data, Actor a_actor)
     {
+
         switch (a_data.type)
         {
-            case Type.ACTION: return new SpellCard(a_game, a_data, a_actor);
-            case Type.FOLLOWER: return new UnitCard(a_game, a_data, a_actor);
+            case Type.ACTION:
+                Card spell = new SpellCard(a_game, a_data, a_actor);
+                spell.ToggleAbilities(true);
+                return spell;
+            case Type.FOLLOWER:
+                Card unit = new UnitCard(a_game, a_data, a_actor);
+                unit.ToggleAbilities(true);
+                return unit;
             default:
                 Debug.LogError("Card::Get | Error: Unknown Card Type: " + a_data.type);
                 return null;
@@ -46,8 +42,6 @@ public abstract class Card : ITarget, IModifiable, ISource
     }
 
     protected CardStats _stats;
-    //protected Dictionary<StatName, int> _stats;
-    //protected List<CardModifier> _modifiers;
     protected Dictionary<StatusEffect.Name, StatusEffect> _statusEffects;
     protected Dictionary<AbilityKeyword, KeyAbility> _keyAbilities;
     protected CardGame _game;
@@ -94,20 +88,7 @@ public abstract class Card : ITarget, IModifiable, ISource
             _stats = value;
         }
     }
-    /*
-    public GenericDictionary<Card.StatName, int> stats
-    {
-        get
-        {
-            GenericDictionary<Card.StatName, int> output = new GenericDictionary<StatName, int>();
-            foreach (Card.StatName stat in _stats.Keys)
-            {
-                output[stat] = _stats[stat];
-            }
-            return output;
-        }
-    }
-    */
+
     //=============================================================================================
     // Boolean flags
     public bool playable
@@ -119,14 +100,7 @@ public abstract class Card : ITarget, IModifiable, ISource
             if (zone.type != CardZone.Type.HAND) { return false; }
             if (!_hasTargets) { return false; }
             if (owner.GetStat(Actor.StatName.FOCUS) < stats.Get(CardStats.Name.LEVEL)) { return false; }
-            /*
-            if (owner.GetStat(Actor.StatName.THRESHOLD_RED) < RequiredThreshold(Card.Color.RED)) { return false; }
-            if (owner.GetStat(Actor.StatName.THRESHOLD_GRN) < RequiredThreshold(Card.Color.GREEN)) { return false; }
-            if (owner.GetStat(Actor.StatName.THRESHOLD_BLU) < RequiredThreshold(Card.Color.BLUE)) { return false; }
-            if (owner.GetStat(Actor.StatName.THRESHOLD_VLT) < RequiredThreshold(Card.Color.VIOLET)) { return false; }
-            if (owner.GetStat(Actor.StatName.THRESHOLD_GLD) < RequiredThreshold(Card.Color.GOLD)) { return false; }
-            if (owner.GetStat(Actor.StatName.THRESHOLD_IGO) < RequiredThreshold(Card.Color.INDIGO)) { return false; }
-            */
+            if (data.type != Card.Type.ACTION && !owner.hasSpaceForUnits) { return false; }
             // check if anything else prevents playing this
             Attempt attempt = new Attempt();
             events.CheckPlayable(attempt);
@@ -172,28 +146,40 @@ public abstract class Card : ITarget, IModifiable, ISource
 
         _stats = new CardStats(this);
         _statusEffects = new Dictionary<StatusEffect.Name, StatusEffect>();
-
+        _ownerKnown = false;
+        _opponentKnown = false;
+        numActions = 0;
+        a_game.events.onRefresh += Refresh;
+        owner.events.onStartTurn += StartTurnHandler;
         ability = CardAbility.Get(a_game, data.id, this);
         _keyAbilities = new Dictionary<AbilityKeyword, KeyAbility>();
         foreach (AbilityKeyword key in a_data.abilityKeywords)
         {
             _keyAbilities[key] = KeyAbility.Get(a_game, key, this);
         }
-        if (ability != null && ability.minTargets > 0)
-        {
-            _hasTargets = false;
-        }
-        numActions = 1;
-        _hasTargets = true;
-        _ownerKnown = false;
-        _opponentKnown = false;
 
-        a_game.events.onRefresh += Refresh;
-        owner.events.onStartTurn += (_actor_) =>
+        if (a_owner == a_game.Player(0) && CardGameParams.playerUnitsAreSwift && a_data.type == Card.Type.FOLLOWER)
+        {
+            _keyAbilities[AbilityKeyword.SWIFT] = KeyAbility.Get(a_game, AbilityKeyword.SWIFT, this);
+        }
+    }
+
+    ~Card()
+    {
+        _game.events.onRefresh -= Refresh;
+        owner.events.onStartTurn -= StartTurnHandler;
+        ability.Disable();
+        foreach (KeyAbility key in _keyAbilities.Values)
+        {
+            key.Disable();
+        }
+    }
+    private void StartTurnHandler(Actor a_actor)
+    {
+        if (isInPlay)
         {
             this.numActions = 1;
-        };
-
+        }
     }
     public abstract CardUI Spawn(Vector3 a_spawnPosition, CardZoneUI a_zone);
     public virtual void Initialize()
@@ -268,7 +254,6 @@ public abstract class Card : ITarget, IModifiable, ISource
             owner = a_actor;
             owner.events.onStartTurn += (_actor_) =>
             {
-                Debug.Log("Reset numActions for " + data.name);
                 this.numActions = 1;
             };
         }
@@ -314,6 +299,25 @@ public abstract class Card : ITarget, IModifiable, ISource
     {
         zone.Remove(this);
         GameObject.Destroy(ui.gameObject);
+    }
+    public void ToggleAbilities(bool a_flag)
+    {
+        Debug.Log("Card::ToggleAbilities | card: " + data.name);
+        if (a_flag)
+        {
+            ability?.Enable();
+            foreach (KeyAbility key in _keyAbilities.Values)
+            {
+                key?.Enable();
+            }
+        } else
+        {
+            ability?.Disable();
+            foreach (KeyAbility key in _keyAbilities.Values)
+            {
+                key?.Disable();
+            }
+        }
     }
 
     //=============================================================================================

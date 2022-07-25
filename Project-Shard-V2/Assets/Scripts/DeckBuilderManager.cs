@@ -213,11 +213,9 @@ public class DeckBuilderManager : MonoBehaviour
             switch (a_input.type)
             {
                 case CardGameInput.Type.BEGIN_HOVER:
-                    Debug.Log("Hovering" + card.name);
                     card.Zoom(true);
                     return true;
                 case CardGameInput.Type.END_HOVER:
-                    Debug.Log("End Hovering" + card.name);
                     card.Zoom(false);
                     return true;
                 case CardGameInput.Type.BEGIN_DRAG:

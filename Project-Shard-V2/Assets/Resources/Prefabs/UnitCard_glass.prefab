@@ -4917,7 +4917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5022,7 +5022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5113,7 +5113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 2d3803bdca5927845985e421f54f76cb, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5144,7 +5144,6 @@ GameObject:
   - component: {fileID: 732200176504987864}
   - component: {fileID: 3993113974820202968}
   - component: {fileID: 3605278899592469438}
-  - component: {fileID: 6404713110666008511}
   m_Layer: 0
   m_Name: UnitCard_glass
   m_TagString: Untagged
@@ -5363,20 +5362,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6404713110666008511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082762082020173480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3399fa837659b0945b8af025aaa5d377, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  header: 
-  content: 
 --- !u!1 &1093708820407732783
 GameObject:
   m_ObjectHideFlags: 0
@@ -25651,7 +25636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -40757,7 +40742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -50715,7 +50700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -75456,11 +75441,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_text
-      value: 9
+      value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_fontSize
-      value: 22.35
+      value: 15.1
       objectReference: {fileID: 0}
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_fontColor.b
@@ -75572,7 +75557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8607567131305864313, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -6
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 8607567131305864313, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -75617,11 +75602,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_text
-      value: 9
+      value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_fontSize
-      value: 22.35
+      value: 15.1
       objectReference: {fileID: 0}
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_fontColor.b
@@ -75729,7 +75714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8607567131305864313, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8607567131305864313, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -75931,11 +75916,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_text
-      value: 9
+      value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_fontSize
-      value: 20
+      value: 15.1
       objectReference: {fileID: 0}
     - target: {fileID: 1673420388709201269, guid: bbb3a5f2daf0e134daaf7168f5e70b5d, type: 3}
       propertyPath: m_fontColor.b

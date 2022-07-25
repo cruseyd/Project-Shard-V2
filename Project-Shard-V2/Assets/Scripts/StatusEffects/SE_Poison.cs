@@ -5,7 +5,7 @@ using UnityEngine;
 public class SE_Poison : StatusEffect
 {
     public override bool stackable { get { return true; } }
-    public override Name name { get { return Name.Poison; } }
+    public override Name name { get { return Name.POISON; } }
     private IDamageable damageable { get { return target as IDamageable; } }
     public SE_Poison(CardGame a_game, ITarget a_target) : base(a_game, a_target)
     {

@@ -10,15 +10,15 @@ public abstract class StatusEffect : Ability, ISource
     {
         DEFAULT,
         // General status effects
-        Poison = 1,
-        Acumen,
-        Alacrity,
-        Frenzy,
-        Chilled,
-        Impaled,
-        Frozen,
-        Armor,
-        Memorize,
+        POISON = 1,
+        ACUMEN,
+        ALACRITY,
+        FRENZY,
+        CHILLED,
+        IMPALED,
+        FROZEN,
+        ARMOR,
+        MEMORIZED,
 
         // Card specific status effects
         Sharpen = 1000
@@ -34,7 +34,7 @@ public abstract class StatusEffect : Ability, ISource
 
     public static StatusEffect Get(Name a_name, CardGame a_game, ITarget a_target)
     {
-        string typeName = "SE_" + a_name.ToString();
+        string typeName = "SE_" + TextParser.Capitalize(a_name.ToString());
         Type statusType = Type.GetType(typeName);
         ConstructorInfo constructorInfo = statusType.GetConstructor(new[] { typeof(CardGame), typeof(ITarget) });
         object[] args = { a_game, a_target };
@@ -46,16 +46,16 @@ public abstract class StatusEffect : Ability, ISource
         string text = "";
         switch (a_name)
         {
-            case Name.Poison:
+            case Name.POISON:
                 text = "At the start of your turn, this takes 1 damage and loses 1 stack of POISON.";
                 break;
-            case Name.Acumen:
+            case Name.ACUMEN:
                 text = "At the start of your turn, remove all stacks of ACUMEN and gain that much temporary FOCUS.";
                 break;
-            case Name.Alacrity:
+            case Name.ALACRITY:
                 text = "While in hand, this card's cost is reduced by the number of stacks of ALACRITY.";
                 break;
-            case Name.Frenzy:
+            case Name.FRENZY:
                 text = "When you play an ACTION, remove 1 stack of FRENZY, take 1 damage and gain 1 temporary FOCUS.";
                 break;
             case Name.Sharpen:

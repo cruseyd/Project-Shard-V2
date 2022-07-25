@@ -6,7 +6,7 @@ using UnityEngine;
 public class SE_Alacrity : StatusEffect
 {
     public override bool stackable { get { return true; } }
-    public override Name name { get { return Name.Alacrity; } }
+    public override Name name { get { return Name.ALACRITY; } }
 
     private CardStatModifier _mod;
     public SE_Alacrity(CardGame a_game, ITarget a_target) : base(a_game, a_target)
@@ -29,7 +29,7 @@ public class SE_Alacrity : StatusEffect
 
     public void OnLeaveHand(Card a_card)
     {
-        RemoveStatusEffect(target, Name.Alacrity, 9999);
+        RemoveStatusEffect(target, Name.ALACRITY, 9999);
     }
 }
 /*

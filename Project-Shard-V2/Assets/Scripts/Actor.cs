@@ -96,6 +96,14 @@ public class Actor : ITarget, IModifiable, IDamageable
             return output;
         }
     }
+    
+    public bool hasSpaceForUnits
+    {
+        get
+        {
+            return units.Count < CardGameParams.maxUnits;
+        }
+    }
     public bool needsToDismiss
     {
         get

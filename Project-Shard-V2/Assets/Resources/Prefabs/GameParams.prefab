@@ -142,7 +142,10 @@ MonoBehaviour:
   _playerStartingInfluence: 3
   _playerStartingHealth: 20
   _playerStartingResource: 3
+  _playerMaxInfluence: 6
+  _playerMaxResource: 6
   _playerHandSize: 3
+  _maxUnits: 1
   _aiDecisionTreeDepth: 10
   _cardSourceGradient:
     serializedVersion: 2
@@ -208,3 +211,4 @@ MonoBehaviour:
   _cardValidTargetSecondColor: {r: 1, g: 1, b: 1, a: 0.5019608}
   _cardSelectedTargetMainColor: {r: 0, g: 0.6981132, b: 0.047603074, a: 0.078431375}
   _cardSelectedTargetSecondColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  _playerUnitsAreSwift: 0

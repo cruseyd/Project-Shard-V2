@@ -5,7 +5,7 @@ using UnityEngine;
 public class SE_Frenzy : StatusEffect
 {
     public override bool stackable { get { return true; } }
-    public override Name name { get { return Name.Frenzy; } }
+    public override Name name { get { return Name.FRENZY; } }
     public SE_Frenzy(CardGame a_game, ITarget a_target) : base(a_game, a_target)
     {
         Debug.Assert(a_target is Actor);
@@ -28,7 +28,7 @@ public class SE_Frenzy : StatusEffect
             DamageData damage = new DamageData(1, this, (IDamageable)target);
             DamageTarget(damage);
             AddFocus((Actor)target, 1, 0);
-            RemoveStatusEffect(target, Name.Frenzy, 1);
+            RemoveStatusEffect(target, Name.FRENZY, 1);
         }
     }
 }

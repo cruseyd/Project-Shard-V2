@@ -94,7 +94,7 @@ public class CardGame
     {
         switch (a_status)
         {
-            case StatusEffect.Name.Poison: return -1.0f * a_stacks;
+            case StatusEffect.Name.POISON: return -1.0f * a_stacks;
             default: return 0.0f;
         }
     }
@@ -164,9 +164,28 @@ public class CardGame
         }
         return targetCombinations;
     }
-
     public List<IDamageable> FindAttackTargets(UnitCard a_unit)
     {
+        List<IDamageable> allDefenders = new List<IDamageable>();
+        foreach (Actor opponent in a_unit.opponents)
+        {
+            List<IDamageable> defenders = new List<IDamageable>();
+            defenders.AddRange(opponent.units);
+            events.ModifyDefenders(a_unit, opponent, defenders);
+            events.OverrideDefenders(a_unit, opponent, defenders);
+            if (defenders.Count == 0)
+            {
+                defenders.Add(opponent);
+            } else
+            {
+                events.BypassDefenders(a_unit, opponent, defenders);
+            }
+            Debug.Log("Adding " + defenders.Count + " defenders");
+            allDefenders.AddRange(defenders);
+        }
+        return allDefenders;
+        
+        /*
         List<IDamageable> defenders = new List<IDamageable>();
         foreach (Actor opponent in a_unit.opponents)
         {
@@ -214,8 +233,8 @@ public class CardGame
             }
         }
         return defenders;
+        */
     }
-
     public List<ITarget> VisibleTargets(Actor a_actor)
     {
         List<ITarget> targets = new List<ITarget>();
@@ -279,7 +298,6 @@ public class CardGame
         //events.Refresh();
         return action;
     }
-
     public GameAction UndoAllActions()
     {
         GameAction action = null;
@@ -289,13 +307,11 @@ public class CardGame
         }
         return action;
     }
-
     public void ConfirmAction(GameAction a_action)
     {
         _actions.Clear();
         CombatManager.ConfirmAction(a_action);
     }
-
     public void Print()
     {
         string output = "Game State:\n";
@@ -349,7 +365,6 @@ public class CardGame
         //events.Refresh();
         events.UIRefresh();
     }
-
     public void UpdateCardKnowledge()
     {
         foreach (Actor player in _players)
@@ -384,7 +399,6 @@ public class CardGame
             }
         }
     }
-
     public void FixCardPlacement()
     {
         foreach (Actor player in players)

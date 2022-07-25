@@ -12,10 +12,8 @@ public abstract class GameEffect
     ///     Add / Remove Status Effect
     public virtual void Execute(CardGame a_game)
     {
-        //Debug.Log("EFFECT: " + this);
         a_game.currentAction.AddEffect(this);
     }
     public abstract void Undo(CardGame a_game);
-
     public abstract void Show(CardGame a_game);
 }

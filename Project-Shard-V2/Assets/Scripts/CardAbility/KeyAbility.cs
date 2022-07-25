@@ -19,15 +19,6 @@ public class KeyAbility : Ability
         KeyAbility ability = constructorInfo.Invoke(args) as KeyAbility;
 
         return ability;
-
-        /*
-        switch (a_key)
-        {
-            case AbilityKeyword.SWIFT: return new KA_Swift(a_game, a_card);
-            default:
-                return null;
-        }
-        */
     }
     public List<TargetQuery> aTargets { get; protected set; }
     public virtual int aMinTargets { get { return maxTargets; } }
@@ -42,6 +33,5 @@ public class KeyAbility : Ability
     }
 
     public virtual void Play(List<ITarget> a_targets) { }
-
     public virtual void Activate(List<ITarget> a_targets) { }
 }

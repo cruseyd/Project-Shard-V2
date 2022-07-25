@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class PauseMenu : MonoBehaviour
@@ -14,6 +15,8 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] private TMP_Dropdown _playerDeck;
     [SerializeField] private TMP_Dropdown _enemyDeck;
+    [SerializeField] private Toggle _rushUnits;
+
 
     private bool _open;
 
@@ -66,6 +69,7 @@ public class PauseMenu : MonoBehaviour
     public void Close()
     {
         _open = false;
+        CardGameParams.playerUnitsAreSwift = _rushUnits.isOn;
         _menu.SetActive(false);
     }
 
@@ -89,7 +93,7 @@ public class PauseMenu : MonoBehaviour
         _playerDeck.AddOptions(deckOptions);
         _enemyDeck.ClearOptions();
         _enemyDeck.AddOptions(deckOptions);
-        
+        _rushUnits.isOn = CardGameParams.playerUnitsAreSwift;
         _menu.SetActive(true);
     }
 }

@@ -51,11 +51,6 @@ public class Decklist
         DecklistArray decksArray = JsonUtility.FromJson<DecklistArray>(json);
         foreach (Decklist list in decksArray.data)
         {
-            Debug.Log("Adding Deck: " + list.name);
-            foreach (DecklistItem item in list.list)
-            {
-                Debug.Log("Deck contains " + item.qty + " " + item.id);
-            }
             _decks.Add(list);
         }
     }

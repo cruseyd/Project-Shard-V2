@@ -117,16 +117,12 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         if (a_data.k2 != null) { _keywordText.text += (" " + a_data.k2); }
         if (a_data.k3 != null) { _keywordText.text += (" " + a_data.k3); }
 
-        _abilityText.text = "<b><color=yellow>";
-        if (a_data.ka1 != null) { _abilityText.text += a_data.ka1; }
-        if (a_data.ka2 != null) { _abilityText.text += (", " + a_data.ka2); }
-        if (a_data.ka3 != null) { _abilityText.text += (", " + a_data.ka3); }
-        if (a_data.abilityKeywords.Count > 0)
-        {
-            _abilityText.text += "\n";
-        }
-        _abilityText.text += "</color></b>";
-        _abilityText.text += a_data.text;
+        _abilityText.text = "<b>";
+        if (a_data.ka1 != null) { _abilityText.text += TextParser.Parse(a_data.ka1); }
+        if (a_data.ka2 != null) { _abilityText.text += (", " + TextParser.Parse(a_data.ka2)); }
+        if (a_data.ka3 != null) { _abilityText.text += (", " + TextParser.Parse(a_data.ka3)); }
+        if (a_data.abilityKeywords.Count > 0) { _abilityText.text += "\n"; }
+        _abilityText.text += TextParser.Parse(a_data.text);
         _abilityText.text += "</b>";
         _particles = GetComponent<CardParticles>();
         InitStats(a_data);
@@ -402,7 +398,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        
         CardGameInput input = new CardGameInput(CardGameInput.Type.END_HOVER, this.transform, eventData);
         GameManager.ProcessInput(input);
     }
@@ -467,17 +462,17 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         Color rayColor = Color.white;
         switch (_data.color)
         {
-            case Card.Color.BLUE:
+            case Card.Color.IRI:
                 rayColor = new Color(0, 200, 100, 0.05f); break;
-            case Card.Color.GREEN:
+            case Card.Color.FEN:
                 rayColor = new Color(50, 200, 0, 0.05f); break;
-            case Card.Color.INDIGO:
+            case Card.Color.VAEL:
                 rayColor = new Color(100, 50, 200, 0.05f); break;
-            case Card.Color.RED:
+            case Card.Color.RAIZ:
                 rayColor = new Color(255, 160, 0, 0.05f); break;
-            case Card.Color.GOLD:
+            case Card.Color.ORA:
                 rayColor = new Color(255, 160, 0, 0.05f); break;
-            case Card.Color.VIOLET:
+            case Card.Color.LIS:
                 rayColor = new Color(255, 160, 0, 0.05f); break;
         }
         _particles?.SetFaceColor(rayColor, 0);

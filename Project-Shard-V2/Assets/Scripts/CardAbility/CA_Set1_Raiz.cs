@@ -126,7 +126,7 @@ public class CA_Blitz : CardAbility
     public override void Play(List<ITarget> a_targets)
     {
         base.Play(a_targets);
-        DrawCards(_source.owner, 1);
+        DrawCards(_source.owner, _source.data.var1);
         int focusGain = 0;
         List<Card> handCards = _source.owner.hand.cards;
         foreach (Card card in handCards)
@@ -136,12 +136,12 @@ public class CA_Blitz : CardAbility
                 focusGain++;
             }
         }
-        AddFocus(_source.owner, focusGain, 0);
+        AddFocus(_source.owner, focusGain*_source.data.var2, 0);
     }
 
     private void CycleHandler(Card a_card)
     {
-        AddStatusEffect(_source.owner, StatusEffect.Name.Acumen, _source.data.var2);
+        AddStatusEffect(_source.owner, StatusEffect.Name.ACUMEN, _source.data.var3);
     }
 }
 
@@ -154,7 +154,7 @@ public class CA_Sharpen : CardAbility
     public override void Play(List<ITarget> a_targets)
     {
         base.Play(a_targets);
-        AddStatusEffect(_source.owner, StatusEffect.Name.Sharpen, 1);
+        AddStatusEffect(_source.owner, StatusEffect.Name.Sharpen, _source.data.var1);
     }
 }
 
@@ -183,7 +183,7 @@ public class CA_Relentless : CardAbility
             }
         }
         int roll = Random.Range(0, actions.Count);
-        AddStatusEffect(actions[roll], StatusEffect.Name.Alacrity, _source.data.var2);
+        AddStatusEffect(actions[roll], StatusEffect.Name.ALACRITY, _source.data.var2);
     }
 }
 
@@ -196,7 +196,7 @@ public class CA_SeeingRed : CardAbility
     public override void Play(List<ITarget> a_targets)
     {
         base.Play(a_targets);
-        AddStatusEffect(_source.owner, StatusEffect.Name.Frenzy, _source.data.var1);
+        AddStatusEffect(_source.owner, StatusEffect.Name.FRENZY, _source.data.var1);
         DrawCards(_source.owner, 1);
     }
 }
@@ -211,12 +211,12 @@ public class CA_IntotheFray : CardAbility
     public override void Play(List<ITarget> a_targets)
     {
         base.Play(a_targets);
-        AddStatusEffect(_source.owner, StatusEffect.Name.Frenzy, _source.data.var1);
+        AddStatusEffect(_source.owner, StatusEffect.Name.FRENZY, _source.data.var1);
     }
 
     private void CycleHandler(Card a_card)
     {
-        AddStatusEffect(_source.owner, StatusEffect.Name.Frenzy, _source.data.var2);
+        AddStatusEffect(_source.owner, StatusEffect.Name.FRENZY, _source.data.var2);
     }
 }
 
@@ -246,7 +246,7 @@ public class CA_FeralThrash : CardAbility
         if (_source.isInHand)
         {
             _source.AddModifier(_mod); //adding modifier manually;
-            int numFrenzy = _source.owner.GetStatusEffect(StatusEffect.Name.Frenzy);
+            int numFrenzy = _source.owner.GetStatusEffect(StatusEffect.Name.FRENZY);
             int discount = numFrenzy * _source.data.var2;
             Debug.Log("Feral Thrash Discount: " + discount);
             ChangeStatModifier(_mod, -discount);

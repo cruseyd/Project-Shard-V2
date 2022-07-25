@@ -51,6 +51,20 @@ public enum AbilityKeyword
     OVERWHELM,
     FRAGILE,
     RUSH,
-    WARD,
     ARMOR
+}
+
+public enum ActionKeyword
+{
+    DEFAULT,
+    HEAL,
+    ABILITY,
+    ATTACK,
+    DEFEND,
+    PLAY,
+    CHANNEL,
+    CYCLE,
+    DRAW,
+    SUMMON,
+    DESTROY
 }

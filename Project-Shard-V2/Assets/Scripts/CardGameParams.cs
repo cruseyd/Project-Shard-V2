@@ -19,7 +19,10 @@ public class CardGameParams : MonoBehaviour
     [SerializeField] private int _playerStartingInfluence;
     [SerializeField] private int _playerStartingHealth;
     [SerializeField] private int _playerStartingResource;
+    [SerializeField] private int _playerMaxInfluence;
+    [SerializeField] private int _playerMaxResource;
     [SerializeField] private int _playerHandSize;
+    [SerializeField] private int _maxUnits;
     [SerializeField] private int _aiDecisionTreeDepth;
 
     [SerializeField] private Gradient _cardSourceGradient;
@@ -31,6 +34,17 @@ public class CardGameParams : MonoBehaviour
     [SerializeField] private Color _cardSelectedTargetMainColor;
     [SerializeField] private Color _cardSelectedTargetSecondColor;
 
+    // CHEATS
+    [SerializeField] private bool _playerUnitsAreSwift = false;
+
+    public static int playerMaxInfluence { get { return _instance._playerMaxInfluence; } }
+    public static int playerMaxResource { get { return _instance._playerMaxResource; } }
+    public static int maxUnits { get { return _instance._maxUnits; } }
+    public static bool playerUnitsAreSwift
+    {
+        get { return _instance._playerUnitsAreSwift; }
+        set { _instance._playerUnitsAreSwift = value; }
+    }
     public static int playerStartingInfluence { get { return _instance._playerStartingInfluence; } }
     public static int playerHandSize { get { return _instance._playerHandSize; } }
     public static int playerStartingHealth { get { return _instance._playerStartingHealth; } }

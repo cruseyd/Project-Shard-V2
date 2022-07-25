@@ -17,7 +17,6 @@ public class CombatManager : MonoBehaviour
     private CardGame _game;
     private GamePhase _phaseValue;
     private float _lastButtonPress;
-    //private float _lastLeftClick;
     private bool _buttonsEnabled;
 
     public static GamePhase.Name phase

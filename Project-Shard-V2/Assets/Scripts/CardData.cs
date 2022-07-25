@@ -55,8 +55,6 @@ public class CardData : IComparable
             {
                 t += (Var(ii - 1) + bits[ii]);
             }
-            t = ParseSpecialWords(t);
-            t = StatusEffect.ParseStatusEffects(t);
             return t;
         }
     }
@@ -73,9 +71,9 @@ public class CardData : IComparable
         get
         {
             List<Keyword> keys = new List<Keyword>();
-            if (k1 != null) { keys.Add(GameManager.ParseTextAsKeyword(k1)); }
-            if (k2 != null) { keys.Add(GameManager.ParseTextAsKeyword(k2)); }
-            if (k3 != null) { keys.Add(GameManager.ParseTextAsKeyword(k3)); }
+            if (k1 != null) { keys.Add(TextParser.ParseTextAsKeyword(k1)); }
+            if (k2 != null) { keys.Add(TextParser.ParseTextAsKeyword(k2)); }
+            if (k3 != null) { keys.Add(TextParser.ParseTextAsKeyword(k3)); }
             return keys;
         }
     }
@@ -129,22 +127,22 @@ public class CardData : IComparable
             {
                 case "RAIZ":
                 case "RED":
-                    return Card.Color.RED;
+                    return Card.Color.RAIZ;
                 case "FEN":
                 case "GREEN":
-                    return Card.Color.GREEN;
+                    return Card.Color.FEN;
                 case "IRI":
                 case "BLUE":
-                    return Card.Color.BLUE;
+                    return Card.Color.IRI;
                 case "LIS":
                 case "VIOLET":
-                    return Card.Color.VIOLET;
+                    return Card.Color.LIS;
                 case "GOLD":
                 case "ORA":
-                    return Card.Color.GOLD;
+                    return Card.Color.ORA;
                 case "INDIGO":
                 case "VAEL":
-                    return Card.Color.INDIGO;
+                    return Card.Color.VAEL;
                 default:
                     return Card.Color.DEFAULT;
             }
@@ -156,12 +154,12 @@ public class CardData : IComparable
         {
             switch (color)
             {
-                case Card.Color.RED: return Actor.StatName.THRESHOLD_RED;
-                case Card.Color.GREEN: return Actor.StatName.THRESHOLD_GRN;
-                case Card.Color.BLUE: return Actor.StatName.THRESHOLD_BLU;
-                case Card.Color.VIOLET: return Actor.StatName.THRESHOLD_VLT;
-                case Card.Color.GOLD: return Actor.StatName.THRESHOLD_GLD;
-                case Card.Color.INDIGO: return Actor.StatName.THRESHOLD_IGO;
+                case Card.Color.RAIZ: return Actor.StatName.THRESHOLD_RED;
+                case Card.Color.FEN: return Actor.StatName.THRESHOLD_GRN;
+                case Card.Color.IRI: return Actor.StatName.THRESHOLD_BLU;
+                case Card.Color.LIS: return Actor.StatName.THRESHOLD_VLT;
+                case Card.Color.ORA: return Actor.StatName.THRESHOLD_GLD;
+                case Card.Color.VAEL: return Actor.StatName.THRESHOLD_IGO;
             }
             return Actor.StatName.DEFAULT;
         }
@@ -226,28 +224,28 @@ public class CardData : IComparable
     {
         switch (a_string)
         {
-            case "R": return Card.Color.RED;
-            case "G": return Card.Color.GREEN;
-            case "B": return Card.Color.BLUE;
-            case "V": return Card.Color.VIOLET;
-            case "Y": return Card.Color.GOLD;
-            case "I": return Card.Color.INDIGO;
+            case "R": return Card.Color.RAIZ;
+            case "G": return Card.Color.FEN;
+            case "B": return Card.Color.IRI;
+            case "V": return Card.Color.LIS;
+            case "Y": return Card.Color.ORA;
+            case "I": return Card.Color.VAEL;
             default: return Card.Color.DEFAULT;
         }
     }
     public bool ContainsText(string a_text)
     {
-        a_text = a_text.ToLower();
+        string searchText = a_text.ToLower();
         foreach (Keyword s in keywords)
         {
-            if (s.ToString().ToLower().Contains(a_text)) { return true; }
+            if (s.ToString().ToLower().Contains(searchText)) { return true; }
         }
         foreach (AbilityKeyword s in abilityKeywords)
         {
-            if (s.ToString().ToLower().Contains(a_text)) { return true; }
+            if (s.ToString().ToLower().Contains(searchText)) { return true; }
         }
-        if (name.ToLower().Contains(a_text)) { return true; }
-        if (text.ToLower().Contains(a_text)) { return true; }
+        if (name.ToLower().Contains(searchText)) { return true; }
+        if (text.ToLower().Contains(searchText)) { return true; }
         return false;
     }
 

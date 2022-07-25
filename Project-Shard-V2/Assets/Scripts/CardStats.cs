@@ -17,7 +17,6 @@ public class CardStats
     private Dictionary<Name, int> _stats;
     private List<CardModifier> _modifiers;
     private Card _card;
-
     public List<CardModifier> modifiers
     {
         get
