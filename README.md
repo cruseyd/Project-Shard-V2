@@ -1,6 +1,6 @@
 # Project Shard
 ## Design Principles
-Project Shard is a work-in-progress digital card game and roguelike. Inspiration has been drawn from the best competitive card games including Magic: The Gathering, Legends of Runeterra, and Hearthstone as well as deck builders such as Slay the Spire and Dominion. The core design principles are as follows:
+Project Shard is a work-in-progress digital card game and roguelike deckbuilder. Inspiration has been drawn from the best competitive card games including Magic: The Gathering, Legends of Runeterra, and Hearthstone as well as deck builders such as Slay the Spire and Dominion. The core design principles are as follows:
 - Gameplay is optimized for a single player experience
 - Despite being a card game, the digital space is fully embraced
 - Content bloat is kept to a minimum
