@@ -5639,7 +5639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &678017595
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6480,7 +6480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1228167444
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7284,15 +7284,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.49056602, b: 0.3729822, a: 0.40392157}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: f316e10b7a0c5d24ba65097b6bb607fc, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -7782,11 +7782,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.46402976
+      value: 0.46058115
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_Pivot.y
-      value: 1.0672547
+      value: 1.0678532
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -7798,11 +7798,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -69.06287
+      value: -75.684204
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418372855304, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 612.635
+      value: 613.2815
       objectReference: {fileID: 0}
     - target: {fileID: 1642131418515992278, guid: 9d06eea85eda4424b870731a800c90e6, type: 3}
       propertyPath: m_AnchorMax.y
